@@ -1,8 +1,13 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { CssBaseline, Typography, Container } from '@mui/material';
 import Header from './header';
+import Config from '../config';
 
 const Home = () => {
+  useEffect(() => {
+    document.title = `${Config.Title} | Home`;
+  })
+
   return (
     <Fragment>
       <Header />

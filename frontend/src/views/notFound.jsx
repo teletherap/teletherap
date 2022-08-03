@@ -1,8 +1,13 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Alert, CssBaseline, Container, AlertTitle } from '@mui/material';
 import Header from './header';
+import Config from '../config';
 
 const NotFound = () => {
+  useEffect(() => {
+    document.title = `${Config.Title} | Not Found!`;
+  })
+
   return (
     <Fragment>
       <Header />

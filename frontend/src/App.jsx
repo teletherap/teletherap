@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import Home from './components/home';
-import NotFound from './components/notFound';
+import Home from './views/home';
+import NotFound from './views/notFound';
 
 const App = () => {
   return (
