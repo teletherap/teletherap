@@ -8,6 +8,8 @@ class Client(models.Model):
                                 related_name='client',
                                 primary_key=True)
 
+    def __str__(self):
+        return str(self.user)
 
 class Therapist(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE,
@@ -17,6 +19,9 @@ class Therapist(models.Model):
     telegram_username = models.CharField(max_length=255, null=True, validators=[
                                          RegexValidator(r'^([a-zA-Z0-9_]{5,})$', 'Telegram username must be alphanumeric.')])
     is_approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.user)
 
 
 class TherapistDocuments(models.Model):
