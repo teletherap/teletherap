@@ -6,11 +6,12 @@ set -euo pipefail
 
 readonly CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 readonly ROOT_DIR="$CWD/../"
+readonly SERVICE_NAME="backend"
 readonly CONTAINER_NAME="make_migrations_container_name"
 
 cd "$ROOT_DIR"
-docker-compose build
-docker-compose run --name $CONTAINER_NAME app ./manage.py makemigrations
+docker-compose build $SERVICE_NAME
+docker-compose run --name $CONTAINER_NAME $SERVICE_NAME ./manage.py makemigrations
 cd "$CWD"
 for f in *; do
   if [ -d "$f/migrations/" ]; then
