@@ -22,4 +22,4 @@ urlpatterns = [
     re_path(r'^jet/', include('jet.urls', 'jet')),
     re_path(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     re_path(r'^admin/', admin.site.urls),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
