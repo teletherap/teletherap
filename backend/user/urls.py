@@ -8,4 +8,5 @@ urlpatterns = [
     re_path(r'^login/$', views.MyObtainTokenPairView.as_view(), name='token_obtain_pair'),
     re_path(r'^login/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
     re_path(r'^register/client/$', views.ClientRegisterView.as_view(), name='register_client'),
+    re_path(r'^register/therapist/$', views.TherapistRegisterView.as_view(), name='register_therapist'),
 ]

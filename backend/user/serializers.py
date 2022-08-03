@@ -3,7 +3,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers, validators
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import Client
+from .models import Client, Therapist
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -55,4 +55,11 @@ class ClientRegisterSerializer(RegisterSerializer):
     def create(self, validated_data: dict):
         user: User = super().create(validated_data)
         Client.objects.create(user=user)
+        return user
+
+
+class TherapistRegisterSerializer(RegisterSerializer):
+    def create(self, validated_data: dict):
+        user: User = super().create(validated_data)
+        Therapist.objects.create(user=user)
         return user
