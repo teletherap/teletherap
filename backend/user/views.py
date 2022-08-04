@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
-from rest_framework import generics, permissions, mixins
+from django.http import HttpRequest
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, permissions, mixins, views, response, status
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from . import serializers, permissions as user_permissions, models
@@ -46,3 +48,20 @@ class TherapistDocumentCD(mixins.CreateModelMixin, mixins.DestroyModelMixin, gen
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+class AccountVerification(views.APIView):
+    def get(self, request: HttpRequest, username: str, token: str, *args, **kwargs):
+        user = get_object_or_404(User, username=username)
+        if user.is_active:
+            return response.Response(status=status.HTTP_200_OK)
+
+        activation = models.AccountActivation.objects.filter(user=user, activation_key=token)
+        if activation.exists():
+            user.is_active = True
+            user.save()
+            activation.delete()
+            return response.Response(status=status.HTTP_200_OK)
+        return response.Response({
+            'error': f'Invalid token for user {username}'
+        }, status=status.HTTP_403_FORBIDDEN)

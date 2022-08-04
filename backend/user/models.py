@@ -33,3 +33,12 @@ class TherapistDocuments(models.Model):
         return f'therapist_documents/{self.therapist.user.username}/{filename}'
 
     document = models.FileField(upload_to=get_path)
+
+
+class AccountActivation(models.Model):
+    user = models.OneToOneField('auth.User', on_delete=models.CASCADE,
+                                related_name='account_activation')
+    activation_key = models.CharField(max_length=40)
+
+    def __str__(self):
+        return str(self.user)

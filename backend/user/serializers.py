@@ -1,9 +1,11 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
+from django.db import transaction
 from rest_framework import serializers, validators
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import Client, Therapist, TherapistDocuments
+from .verification import Verifier
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -38,6 +40,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             return attrs
         raise serializers.ValidationError({"password": "Password fields didn't match."})
 
+    @transaction.atomic
     def create(self, validated_data: dict):
         user: User = User.objects.create(
             username=validated_data['username'],
@@ -45,8 +48,12 @@ class RegisterSerializer(serializers.ModelSerializer):
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'])
 
+        user.is_active = False
         user.set_password(validated_data['password'])
         user.save()
+
+        verifier = Verifier(user)
+        verifier.send_verification_email()
 
         return user
 
