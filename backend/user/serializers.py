@@ -3,7 +3,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers, validators
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import Client, Therapist
+from .models import Client, Therapist, TherapistDocuments
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -63,3 +63,22 @@ class TherapistRegisterSerializer(RegisterSerializer):
         user: User = super().create(validated_data)
         Therapist.objects.create(user=user)
         return user
+
+
+class TherapistDocumentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TherapistDocuments
+        fields = ('therapist', 'name', 'document')
+
+    def create(self, validated_data):
+        return super().create(validated_data)
+
+
+class PrivateTherapistSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+    documents = TherapistDocumentsSerializer(many=True, read_only=True)
+    is_approved = serializers.BooleanField(read_only=True)
+
+    class Meta:
+        model = Therapist
+        fields = ('user', 'description', 'telegram_username', 'is_approved', 'documents')

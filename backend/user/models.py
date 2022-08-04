@@ -25,9 +25,9 @@ class Therapist(models.Model):
 
 
 class TherapistDocuments(models.Model):
+    name = models.CharField(max_length=255, primary_key=True)
     therapist = models.ForeignKey(Therapist, on_delete=models.CASCADE,
                                   related_name='documents')
-    name = models.CharField(max_length=255)
 
     def get_path(self, filename: str):
         return f'therapist_documents/{self.therapist.user.username}/{filename}'
