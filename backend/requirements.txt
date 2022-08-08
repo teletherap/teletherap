@@ -1,0 +1,6 @@
+django
+django-4-jet
+djangorestframework
+djangorestframework-simplejwt
+django-mysql
+PyMySQL
