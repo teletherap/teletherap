@@ -176,6 +176,7 @@ JET_SIDE_MENU_CUSTOM_APPS = [
     ]),
     ('therapy', [
         'Reservation',
+        'Review',
     ]),
 ]
 JET_CHANGE_FORM_SIBLING_LINKS = False
