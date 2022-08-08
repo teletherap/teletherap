@@ -168,6 +168,15 @@ JET_SIDE_MENU_CUSTOM_APPS = [
         'Client',
         'Therapist',
     ]),
+    ('finance', [
+        'Wallet',
+        'Deposit',
+        'Withdrawal',
+        'ReservationTransaction',
+    ]),
+    ('therapy', [
+        'Reservation',
+    ]),
 ]
 JET_CHANGE_FORM_SIBLING_LINKS = False
 JET_INDEX_DASHBOARD = 'jet.dashboard.dashboard.Dashboard'
