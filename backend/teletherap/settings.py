@@ -151,11 +151,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/django-static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'django-static')
+STATIC_ROOT = '/mnt/django-static'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/mnt/media/'
 
 JET_SIDE_MENU_COMPACT = True
 JET_SIDE_MENU_CUSTOM_APPS = [
-    # TODO
+    ('auth', [
+        'User',
+        'Group',
+    ]),
+    ('user', [
+        'Client',
+        'Therapist',
+    ]),
 ]
 JET_CHANGE_FORM_SIBLING_LINKS = False
 JET_INDEX_DASHBOARD = 'jet.dashboard.dashboard.Dashboard'
@@ -176,3 +186,16 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True  
+EMAIL_HOST = 'smtp.gmail.com'  
+EMAIL_HOST_USER = os.getenv('GMAIL_ADDRESS')
+EMAIL_HOST_PASSWORD = os.getenv('GMAIL_PASSWORD')
+EMAIL_PORT = 587  
+
+
+# URLs
+BASE_URL = os.getenv('BASE_URL')
+VERIFICATION_PATH = os.getenv('VERIFICATION_PATH')
