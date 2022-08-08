@@ -16,6 +16,12 @@ class Therapist(models.Model):
                                 related_name='therapist',
                                 primary_key=True)
     description = models.TextField(blank=True, null=True)
+    license_id = models.CharField(max_length=10, null=True)
+    expertise = models.CharField(max_length=100, null=True)
+    years_of_experience = models.IntegerField(null=True)
+    price_per_session = models.IntegerField(null=True)
+    daily_start_time = models.TimeField(null=True)
+    daily_end_time = models.TimeField(null=True)
     telegram_username = models.CharField(max_length=255, null=True, validators=[
                                          RegexValidator(r'^([a-zA-Z0-9_]{5,})$', 'Telegram username must be alphanumeric.')])
     is_approved = models.BooleanField(default=False)
