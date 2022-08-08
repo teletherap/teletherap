@@ -28,7 +28,7 @@ class Withdrawal(models.Model):
     amount = models.FloatField()
     date = models.DateTimeField(auto_now_add=True)
     destination_iban = models.CharField(max_length=255, null=True,
-                            validators=[RegexValidator(r'^([a-zA-Z0-9]{26})$', 'IBAN must be alphanumeric.')])
+                            validators=[RegexValidator(r'^([a-zA-Z0-9]{26})$', 'IBAN is not correct.')])
 
     def __str__(self):
         return f'{self.user}\'s withdrawal: {self.amount} at {self.date}'
