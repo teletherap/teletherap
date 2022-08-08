@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'jet.dashboard',
     'user',
+    'finance',
+    'therapy',
 ]
 
 MIDDLEWARE = [
