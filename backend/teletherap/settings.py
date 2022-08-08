@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'jet.dashboard',
     'user',
+    'finance',
+    'therapy',
 ]
 
 MIDDLEWARE = [
@@ -165,6 +167,16 @@ JET_SIDE_MENU_CUSTOM_APPS = [
     ('user', [
         'Client',
         'Therapist',
+    ]),
+    ('finance', [
+        'Wallet',
+        'Deposit',
+        'Withdrawal',
+        'ReservationTransaction',
+    ]),
+    ('therapy', [
+        'Reservation',
+        'Review',
     ]),
 ]
 JET_CHANGE_FORM_SIBLING_LINKS = False
