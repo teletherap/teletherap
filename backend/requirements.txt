@@ -5,3 +5,4 @@ djangorestframework-simplejwt
 django-mysql
 PyMySQL
 django-cors-headers
+suds

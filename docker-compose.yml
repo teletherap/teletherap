@@ -18,6 +18,8 @@ services:
       - VERIFICATION_PATH
       - GMAIL_ADDRESS
       - GMAIL_PASSWORD
+      - PAYMENT_BASE_URL
+      - PAYMENT_MERCHANT
     volumes:
       - django_static:/mnt/django-static/
       - ./.media:/mnt/media/
