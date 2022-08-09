@@ -21,7 +21,7 @@ class Verifier:
         token = self.__generate_token()
         send_mail(
             'Activate your account',
-            f'Please click the link to activate your account: {settings.BASE_URL}/api/user/{self.__user.username}/{settings.VERIFICATION_PATH}/{token}',
+            f'Please click the link to activate your account: {settings.BASE_URL}/{settings.VERIFICATION_PATH}/{self.__user.username}/{token}',
             settings.EMAIL_HOST_USER,
             [self.__user.email],
             fail_silently=False)

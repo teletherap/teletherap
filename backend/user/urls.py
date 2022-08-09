@@ -14,5 +14,5 @@ urlpatterns = [
     re_path(r'^therapist/$', views.PrivateTherapistRU.as_view(), name='therapist'),
     re_path(r'^therapist/documents/$', require_POST(views.TherapistDocumentCD.as_view()), name='therapist_documents'),
     re_path(r'^therapist/documents/(?P<pk>.+)/$', require_http_methods(['DELETE'])(views.TherapistDocumentCD.as_view()), name='therapist_document'),
-    re_path(rf'^(?P<username>.+)/{settings.VERIFICATION_PATH}/(?P<token>.+)/$', views.AccountVerification.as_view(), name='account_verification'),
+    re_path(rf'^{settings.VERIFICATION_PATH}/(?P<username>.+)/(?P<token>.+)/$', views.AccountVerification.as_view(), name='account_verification'),
 ]

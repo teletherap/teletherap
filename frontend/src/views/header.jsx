@@ -36,10 +36,16 @@ const Header = ({ logout, isLoggedIn }) => {
               </Button>
             </div>
           ) : (
-            <Button color="inherit"
-              onClick={() => history.push('/login')}>
-              Login
-            </Button>
+            <div>
+              <Button color="inherit"
+                onClick={() => history.push('/login')}>
+                Login
+              </Button>
+              <Button color="inherit"
+                onClick={() => history.push('/register')}>
+                Register
+              </Button>
+            </div>
           )}
         </Toolbar>
       </AppBar>
