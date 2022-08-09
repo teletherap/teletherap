@@ -7,11 +7,11 @@ from .models import Withdrawal
 
 # Create your views here.
 class Withdraw(views.APIView):
-    permission_classes = (permissions.IsAuthenticated)
+    permission_classes = (permissions.IsAuthenticated,)
 
     @transaction.atomic
     def post(self, request: HttpRequest, *args, **kwargs):
-        amount = request.data.get('amount')
+        amount = float(request.data.get('amount'))
         iban = request.data.get('iban')
         
         if amount is None:
@@ -23,5 +23,5 @@ class Withdraw(views.APIView):
         
         request.user.wallet.balance -= amount
         request.user.wallet.save()
-        Withdrawal.objects.create(user=request.user, amount=amount, iban=iban)
+        Withdrawal.objects.create(user=request.user, amount=amount, destination_iban=iban)
         return response.Response({'success': 'withdrawal successful'}, status=status.HTTP_200_OK)
