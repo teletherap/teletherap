@@ -57,3 +57,17 @@ export const register = (type, username, password, password2, email, firstName, 
     },
   },
 });
+
+export const activate = (username, token) => ({
+  [CALL_API]: {
+    types: [
+      actionTypes.ACTIVATION_REQUEST,
+      actionTypes.ACTIVATION_SUCCESS,
+      actionTypes.ACTIVATION_FAILURE,
+    ],
+    url: `${URLs.ACTIVATE}${username}/${token}/`,
+    fetchOptions: {
+      method: 'GET',
+    },
+  },
+});

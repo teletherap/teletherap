@@ -26,6 +26,14 @@ const notification = (state = initState, action) => {
       toast.error(action.error);
       return { ...state };
 
+    case actionTypes.ACTIVATION_SUCCESS:
+      toast.success('Account activated');
+      return { ...state };
+
+    case actionTypes.ACTIVATION_FAILURE:
+      toast.error(action.error);
+      return { ...state };
+
     default:
       return state;
   }

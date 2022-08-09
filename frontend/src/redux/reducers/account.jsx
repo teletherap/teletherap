@@ -26,6 +26,8 @@ const account = (state = initState, action) => {
     case actionTypes.LOGIN_FAILURE:
     case actionTypes.REGISTER_SUCCESS:
     case actionTypes.REGISTER_FAILURE:
+    case actionTypes.ACTIVATION_SUCCESS:
+    case actionTypes.ACTIVATION_FAILURE:
       return {
         ...state,
         isLoggedIn: false,
@@ -36,6 +38,7 @@ const account = (state = initState, action) => {
       return initState;
 
     case actionTypes.REGISTER_REQUEST:
+    case actionTypes.ACTIVATION_REQUEST:
       return {
         ...state,
         isFetching: true,
