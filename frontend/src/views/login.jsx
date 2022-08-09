@@ -22,7 +22,7 @@ const Login = ({ login, isFetching, isLoggedIn }) => {
   }
 
   if (isLoggedIn) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to="/" />;
   }
 
   return (

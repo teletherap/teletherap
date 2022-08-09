@@ -27,10 +27,6 @@ const Header = ({ logout, isLoggedIn }) => {
           {isLoggedIn ? (
             <div>
               <Button color="inherit"
-                onClick={() => history.push('/dashboard')}>
-                Dashboard
-              </Button>
-              <Button color="inherit"
                 onClick={logout}>
                 Logout
               </Button>
