@@ -6,7 +6,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import Client, Therapist, TherapistDocuments
 from .verification import Verifier
-
+from finance.models import Wallet
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
@@ -54,6 +54,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         verifier = Verifier(user)
         verifier.send_verification_email()
+
+        Wallet.objects.create(user=user)
 
         return user
 

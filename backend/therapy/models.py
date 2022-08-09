@@ -9,7 +9,7 @@ class Reservation(models.Model):
     therapist = models.ForeignKey('user.Therapist', on_delete=models.CASCADE,
                                   related_name='reservations')
     datetime = models.DateTimeField()
-
+    
     class CommunicationType(models.TextChoices):
         TELEGRAM = 'tlgrm', _('Telegram')
         GOOGLE_MEET = 'gmeet', _('Google Meet')
@@ -17,6 +17,13 @@ class Reservation(models.Model):
     communication_type = models.CharField(max_length=5, choices=CommunicationType.choices,
                                           default=CommunicationType.TELEGRAM)
                                         
+    class State(models.TextChoices):
+        RESERVED = 'resd', _('Reserved')
+        ATTENDED = 'attd', _('Attended')
+        CANCELLED = 'cnl', _('Cancelled')
+
+    state = models.CharField(max_length=4, choices=State.choices, default=State.RESERVED)
+
 class Review(models.Model):
     reservation = models.OneToOneField('therapy.Reservation', on_delete=models.CASCADE,
                                        related_name='review')
