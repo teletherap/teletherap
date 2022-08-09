@@ -90,4 +90,11 @@ class PrivateTherapistSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Therapist
-        fields = ('user', 'description', 'telegram_username', 'is_approved', 'documents')
+        fields = ('user', 'description',
+                  'license_id', 'expertise',
+                  'years_of_experience',
+                  'price_per_session',
+                  'daily_start_time',
+                  'daily_end_time',
+                  'telegram_username',
+                  'is_approved', 'documents')
