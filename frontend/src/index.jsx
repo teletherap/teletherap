@@ -1,11 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import configureStore from './redux/store/configureStore';
 
+const persistedState = localStorage.getItem('Teletherap')
+  ? JSON.parse(localStorage.getItem('Teletherap'))
+  : undefined;
+
+const store = configureStore(persistedState);
+
+store.subscribe(() => {
+  const state = store.getState();
+  localStorage.setItem(
+    'Teletherap',
+    JSON.stringify(state)
+  );
+});
 
 const Toast = () => (
   <ToastContainer
@@ -23,8 +38,10 @@ const Toast = () => (
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
-    <Toast />
+    <Provider store={store}>
+      <App />
+      <Toast />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
