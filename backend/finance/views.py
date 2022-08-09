@@ -1,14 +1,11 @@
-from rest_framework import permissions, views, status, response, viewsets
-from suds.client import Client
 from django.conf import settings
 from django.db import transaction
-from rest_framework.response import Response
-from .models import Wallet, Deposit
-from django.db import transaction
 from django.http import HttpRequest
+from rest_framework.response import Response
+from rest_framework import permissions, views, status, response
+from suds.client import Client
 
-from .models import Withdrawal
-# Create your views here. 
+from .models import Deposit, Withdrawal
 
 
 def send_payment_request(callback_url: str, amount: int, description: str, email: str = None, mobile: str = None):
@@ -19,6 +16,7 @@ def send_payment_request(callback_url: str, amount: int, description: str, email
                                          email,
                                          mobile,
                                          callback_url)
+
 
 def verify(authority: str, amount: float):
     client = Client(settings.PAYMENT_SETTINGS['wsdl'])
