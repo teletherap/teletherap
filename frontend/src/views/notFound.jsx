@@ -22,6 +22,6 @@ const NotFound = () => {
       </Container>
     </Fragment>
   )
-}
+};
 
 export default NotFound;

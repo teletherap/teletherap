@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'jet.dashboard',
+    'corsheaders',
     'user',
     'finance',
     'therapy',
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -211,3 +213,11 @@ EMAIL_PORT = 587
 # URLs
 BASE_URL = os.getenv('BASE_URL')
 VERIFICATION_PATH = os.getenv('VERIFICATION_PATH')
+
+# payment
+PAYMENT_SETTINGS = {
+    'wsdl': f'{os.getenv("PAYMENT_BASE_URL")}/pg/services/WebGate/wsdl',
+    'MERCHANT': os.getenv('PAYMENT_MERCHANT'),
+    'payment_url': f'{os.getenv("PAYMENT_BASE_URL")}/pg/StartPay/{{}}',
+    'description': 'Deposit for {} in Teletherap',
+}

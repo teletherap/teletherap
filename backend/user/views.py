@@ -54,14 +54,14 @@ class AccountVerification(views.APIView):
     def get(self, request: HttpRequest, username: str, token: str, *args, **kwargs):
         user = get_object_or_404(User, username=username)
         if user.is_active:
-            return response.Response(status=status.HTTP_200_OK)
+            return response.Response({}, status=status.HTTP_200_OK)
 
         activation = models.AccountActivation.objects.filter(user=user, activation_key=token)
         if activation.exists():
             user.is_active = True
             user.save()
             activation.delete()
-            return response.Response(status=status.HTTP_200_OK)
+            return response.Response({}, status=status.HTTP_200_OK)
         return response.Response({
             'error': f'Invalid token for user {username}'
         }, status=status.HTTP_403_FORBIDDEN)

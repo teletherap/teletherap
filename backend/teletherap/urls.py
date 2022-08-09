@@ -21,4 +21,5 @@ urlpatterns = [
     re_path(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     re_path(r'^admin/', admin.site.urls),
     re_path(r'^api/user/', include('user.urls')),
+    re_path(r'^api/finance/', include('finance.urls')),
 ]
