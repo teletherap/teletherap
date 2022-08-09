@@ -35,3 +35,25 @@ export const logout = () => ({
     },
   },
 });
+
+export const register = (type, username, password, password2, email, firstName, lastName) => ({
+  [CALL_API]: {
+    types: [
+      actionTypes.REGISTER_REQUEST,
+      actionTypes.REGISTER_SUCCESS,
+      actionTypes.REGISTER_FAILURE,
+    ],
+    url: `${URLs.REGISTER}${type}/`,
+    fetchOptions: {
+      method: 'POST',
+      body: {
+        username,
+        password,
+        password2,
+        email,
+        first_name: firstName,
+        last_name: lastName,
+      },
+    },
+  },
+});

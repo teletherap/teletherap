@@ -18,6 +18,14 @@ const notification = (state = initState, action) => {
       toast.info('Logged out');
       return { ...state };
 
+    case actionTypes.REGISTER_SUCCESS:
+      toast.success('Account created. Check your email to verify your account');
+      return { ...state };
+
+    case actionTypes.REGISTER_FAILURE:
+      toast.error(action.error);
+      return { ...state };
+
     default:
       return state;
   }
