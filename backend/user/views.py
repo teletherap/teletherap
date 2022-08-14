@@ -52,7 +52,9 @@ class TherapistDocumentCD(mixins.CreateModelMixin, mixins.DestroyModelMixin, gen
     serializer_class = serializers.TherapistDocumentsSerializer
 
     def post(self, request, *args, **kwargs):
+        request.POST._mutable = True
         request.data['therapist'] = request.user.id
+        request.POST._mutable = False
         return self.create(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):

@@ -22,15 +22,36 @@ const notification = (state = initState, action) => {
       toast.success('Account created. Check your email to verify your account');
       return { ...state };
 
-    case actionTypes.REGISTER_FAILURE:
-      toast.error(action.error);
-      return { ...state };
-
     case actionTypes.ACTIVATION_SUCCESS:
       toast.success('Account activated');
       return { ...state };
+    
+    case actionTypes.UPDATE_PERSONAL_THERAPIST_INFO_SUCCESS:
+      toast.success('Personal info updated');
+      return { ...state };
+
+    case actionTypes.REMOVE_THERAPIST_DOCUMENT_SUCCESS:
+      toast.success('Document removed successfully');
+      return { ...state };
+    
+    case actionTypes.REMOVE_THERAPIST_DOCUMENT_FAILURE:
+      toast.error('Error removing document');
+      return { ...state };
+
+    case actionTypes.ADD_THERAPIST_DOCUMENT_SUCCESS:
+      toast.success('Document added successfully');
+      return { ...state };
+    
+    case actionTypes.ADD_THERAPIST_DOCUMENT_FAILURE:
+      console.log(action);
+      toast.error('Error adding document');
+      return { ...state };
 
     case actionTypes.ACTIVATION_FAILURE:
+    case actionTypes.GET_USER_INFO_FAILURE:
+    case actionTypes.REGISTER_FAILURE:
+    case actionTypes.GET_PERSONAL_THERAPIST_INFO_FAILURE:
+    case actionTypes.UPDATE_PERSONAL_THERAPIST_INFO_FAILURE:
       toast.error(action.error);
       return { ...state };
 

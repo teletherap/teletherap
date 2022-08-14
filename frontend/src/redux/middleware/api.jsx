@@ -21,7 +21,9 @@ export default ({ getState }) =>
     next(actionWith({ payload, type: requestType }));
 
     try {
-      fetchOptions.body = JSON.stringify(fetchOptions.body);
+      if (!fetchOptions.formData) {
+        fetchOptions.body = JSON.stringify(fetchOptions.body);
+      }
 
       if (!fetchOptions.dontContentType) {
         fetchOptions.headers = {
@@ -34,7 +36,7 @@ export default ({ getState }) =>
       if (!!account && !!account.token) {
         fetchOptions.headers = {
           ...fetchOptions.headers,
-          Authorization: 'Token ' + account.token,
+          Authorization: 'Bearer ' + account.token,
         };
       }
 

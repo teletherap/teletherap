@@ -71,3 +71,17 @@ export const activate = (username, token) => ({
     },
   },
 });
+
+export const getUserInfo = () => ({
+  [CALL_API]: {
+    types: [
+      actionTypes.GET_USER_INFO_REQUEST,
+      actionTypes.GET_USER_INFO_SUCCESS,
+      actionTypes.GET_USER_INFO_FAILURE,
+    ],
+    url: URLs.GET_USER_INFO,
+    fetchOptions: {
+      method: 'GET',
+    },
+  },
+});
