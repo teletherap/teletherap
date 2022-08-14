@@ -30,6 +30,14 @@ const notification = (state = initState, action) => {
       toast.success('Personal info updated');
       return { ...state };
 
+    case actionTypes.REMOVE_THERAPIST_DOCUMENT_SUCCESS:
+      toast.success('Document removed successfully');
+      return { ...state };
+    
+    case actionTypes.REMOVE_THERAPIST_DOCUMENT_FAILURE:
+      toast.error('Error removing document');
+      return { ...state };
+
     case actionTypes.ACTIVATION_FAILURE:
     case actionTypes.GET_USER_INFO_FAILURE:
     case actionTypes.REGISTER_FAILURE:

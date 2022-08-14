@@ -16,7 +16,12 @@ const checkErrorsStatusCode = (response, json_response) => {
 
 const fetchApi = async (url, fetchOptions) => {
   const response = await fetch(url, fetchOptions);
-  const json_response = await response.json();
+
+  let json_response = null
+  if (response.status !== 204) {
+    json_response = await response.json();
+  }
+
   checkErrorsStatusCode(response, json_response);
   if (!response.ok) {
     throw new Error(json_response.message || JSON.stringify(json_response));

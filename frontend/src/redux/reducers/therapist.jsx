@@ -31,8 +31,6 @@ const therapist = (state = initState, action) => {
       const [endHour, endMinute, endSecond] = action.response.daily_end_time.split(':').map(Number);
       const endTime = new Date(new Date().setHours(endHour, endMinute, endSecond));
 
-      console.log(`is approved: ${action.response.is_approved}`);
-
       return {
         ...state,
         isFetching: false,
@@ -59,6 +57,14 @@ const therapist = (state = initState, action) => {
       return {
         ...state,
         isFetching: false,
+      };
+
+    case actionTypes.REMOVE_THERAPIST_DOCUMENT_SUCCESS:
+      const documents = state.documents
+        .filter(document => document.name !== action.payload.name);
+      return {
+        ...state,
+        documents: documents,
       };
 
     default:

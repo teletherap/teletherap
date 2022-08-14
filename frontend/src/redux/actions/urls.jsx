@@ -6,3 +6,4 @@ export const LOGOUT = Config.ApiBaseUrl.concat('/user/logout/');
 export const REGISTER = Config.ApiBaseUrl.concat('/user/register/');
 export const ACTIVATE = Config.ApiBaseUrl.concat(`/user/${Config.VerificationPath}/`);
 export const PERSONAL_THERAPIST_INFO = Config.ApiBaseUrl.concat('/user/therapist/');
+export const THERAPIST_DOCUMENTS = Config.ApiBaseUrl.concat('/user/therapist/documents/');

@@ -45,3 +45,20 @@ export const updatePersonalTherapistInfo = (
     },
   },
 });
+
+export const removeDocument = (name) => ({
+  [CALL_API]: {
+    types: [
+      actionTypes.REMOVE_THERAPIST_DOCUMENT_REQUEST,
+      actionTypes.REMOVE_THERAPIST_DOCUMENT_SUCCESS,
+      actionTypes.REMOVE_THERAPIST_DOCUMENT_FAILURE,
+    ],
+    url: `${URLs.THERAPIST_DOCUMENTS}${name}/`,
+    fetchOptions: {
+      method: 'DELETE',
+    },
+    payload: {
+      name: name,
+    },
+  },
+});
