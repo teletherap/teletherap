@@ -62,6 +62,17 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 
+class UserInfoSerializer(serializers.ModelSerializer):
+    is_therapist = serializers.SerializerMethodField()
+
+    def get_is_therapist(self, obj: User):
+        return Therapist.objects.filter(user=obj).exists()
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', 'is_therapist')
+
+
 class ClientRegisterSerializer(RegisterSerializer):
     def create(self, validated_data: dict):
         user: User = super().create(validated_data)

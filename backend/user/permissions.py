@@ -8,7 +8,7 @@ class IsTherapist(permissions.BasePermission):
     message = 'You must be the therapist you are trying to perform this action on.'
 
     def has_permission(self, request: HttpRequest, view):
-        return request.user.therapist is not None
+        return models.Therapist.objects.filter(user=request.user).exists()
 
 
 class IsDocumentOwner(permissions.BasePermission):
