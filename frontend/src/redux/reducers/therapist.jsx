@@ -60,11 +60,16 @@ const therapist = (state = initState, action) => {
       };
 
     case actionTypes.REMOVE_THERAPIST_DOCUMENT_SUCCESS:
-      const documents = state.documents
-        .filter(document => document.name !== action.payload.name);
       return {
         ...state,
-        documents: documents,
+        documents: state.documents
+          .filter(document => document.name !== action.payload.name),
+      };
+    
+    case actionTypes.ADD_THERAPIST_DOCUMENT_SUCCESS:
+      return {
+        ...state,
+        documents: [...state.documents, action.response],
       };
 
     default:

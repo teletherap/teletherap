@@ -4,14 +4,16 @@ import { Redirect, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Alert, AlertTitle, CssBaseline, Container, Typography, TextField, Button, Stack, List, ListItem, ListItemAvatar, Avatar, ListItemText, IconButton, Dialog, DialogTitle, DialogActions } from '@mui/material';
 import FolderIcon from '@mui/icons-material/Folder';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { getPersonalTherapistInfo, updatePersonalTherapistInfo, removeDocument } from '../../redux/actions/therapist';
+import { getPersonalTherapistInfo, updatePersonalTherapistInfo, removeDocument, addDocument } from '../../redux/actions/therapist';
 import Header from '../header';
  
-const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo, removeDocument, therapist, account }) => {
+const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo, removeDocument, addDocument, therapist, account }) => {
   const [description, setDescription] = useState(therapist.description);
   const [licenseId, setLicenseId] = useState(therapist.licenseId);
   const [expertise, setExpertise] = useState(therapist.expertise);
@@ -23,6 +25,8 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
   const [documents, setDocuments] = useState(therapist.documents);
   const [toBeRemoved, setToBeRemoved] = useState(null);
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
+  const [documentName, setDocumentName] = useState('');
+  const [document, setDocument] = useState(null);
 
   const openRemoveDialog = (documentName) => {
     setRemoveDialogOpen(true);
@@ -73,7 +77,15 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
     closeRemoveDialog();
   };
 
-  const doAddDocument = (file) => {
+  const doAddDocument = (e) => {
+    e.preventDefault();
+
+    if (!documentName || !document) {
+      toast.error('Please fill all fields');
+      return;
+    }
+
+    addDocument(documentName, document);
   };
 
   if (!account.isLoggedIn || !account.isTherapist) {
@@ -154,6 +166,24 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
           <Typography variant="h4" component="h1" gutterBottom>
             Documents
           </Typography>
+          <form onSubmit={doAddDocument}>
+            <Stack direction="row" spacing={3}>
+              <TextField
+                label="Document name"
+                value={documentName}
+                onChange={e => setDocumentName(e.target.value)} />
+              <IconButton color="primary" aria-label="upload-document" component="label">
+                <input
+                  hidden
+                  type="file"
+                  onChange={e => setDocument(e.target.files[0])} />
+                {document ? (<CloudDoneIcon />) : (<CloudUploadIcon />)}
+              </IconButton>
+              <Button type="submit" variant="contained" color="primary" disabled={therapist.isFetching}>
+                Add
+              </Button>
+            </Stack>
+          </form>
           <List>
             {documents.map(doc => (
               <ListItem
@@ -208,5 +238,5 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps, {
   getPersonalTherapistInfo, updatePersonalTherapistInfo,
-  removeDocument,
+  removeDocument, addDocument,
 })(UpdateTherapist);

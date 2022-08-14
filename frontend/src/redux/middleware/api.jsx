@@ -21,7 +21,9 @@ export default ({ getState }) =>
     next(actionWith({ payload, type: requestType }));
 
     try {
-      fetchOptions.body = JSON.stringify(fetchOptions.body);
+      if (!fetchOptions.formData) {
+        fetchOptions.body = JSON.stringify(fetchOptions.body);
+      }
 
       if (!fetchOptions.dontContentType) {
         fetchOptions.headers = {

@@ -62,3 +62,26 @@ export const removeDocument = (name) => ({
     },
   },
 });
+
+export const addDocument = (name, document) => {
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('document', document, document.name);
+
+  return {
+    [CALL_API]: {
+      types: [
+        actionTypes.ADD_THERAPIST_DOCUMENT_REQUEST,
+        actionTypes.ADD_THERAPIST_DOCUMENT_SUCCESS,
+        actionTypes.ADD_THERAPIST_DOCUMENT_FAILURE,
+      ],
+      url: URLs.THERAPIST_DOCUMENTS,
+      fetchOptions: {
+        method: 'POST',
+        body: formData,
+        dontContentType: true,
+        formData: true,
+      },
+    },
+  }
+};
