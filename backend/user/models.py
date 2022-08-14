@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.validators import RegexValidator
 
+from therapy import models as therapy_models
+
 
 # Create your models here.
 class Client(models.Model):
@@ -28,6 +30,10 @@ class Therapist(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+    @property
+    def upcoming_reservations(self) -> models.QuerySet[therapy_models.Reservation]:
+        return self.reservations.filter(state=therapy_models.Reservation.State.RESERVED)
 
 
 class TherapistDocuments(models.Model):
