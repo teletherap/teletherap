@@ -5,6 +5,7 @@ import Login from './views/login';
 import Register from './views/register';
 import NotFound from './views/notFound';
 import ActivateAccount from './views/activateAccount';
+import UpdateTherapist from './views/user/therapist';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path='/activate/:username/:token' component={ActivateAccount} />
+        <Route exact path="/user/therapist" component={UpdateTherapist} />
         <Route exact path='/' component={Home} />
         <Route component={NotFound} />
       </Switch>

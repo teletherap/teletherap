@@ -25,10 +25,16 @@ const notification = (state = initState, action) => {
     case actionTypes.ACTIVATION_SUCCESS:
       toast.success('Account activated');
       return { ...state };
+    
+    case actionTypes.UPDATE_PERSONAL_THERAPIST_INFO_SUCCESS:
+      toast.success('Personal info updated');
+      return { ...state };
 
     case actionTypes.ACTIVATION_FAILURE:
     case actionTypes.GET_USER_INFO_FAILURE:
     case actionTypes.REGISTER_FAILURE:
+    case actionTypes.GET_PERSONAL_THERAPIST_INFO_FAILURE:
+    case actionTypes.UPDATE_PERSONAL_THERAPIST_INFO_FAILURE:
       toast.error(action.error);
       return { ...state };
 

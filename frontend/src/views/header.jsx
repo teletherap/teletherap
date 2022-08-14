@@ -8,7 +8,7 @@ import { logout } from '../redux/actions/account';
 import Config from '../config';
 
 
-const Header = ({ logout, isLoggedIn, username }) => {
+const Header = ({ logout, isLoggedIn, username, isTherapist }) => {
   const history = useHistory();
   const userMenuId = 'user-menu';
   const [userAnchorEl, setUserAnchorEl] = useState(null)
@@ -21,6 +21,11 @@ const Header = ({ logout, isLoggedIn, username }) => {
   const handleUserMenuClose = () => {
     setUserAnchorEl(null);
   };
+
+  const doLogout = () => {
+    history.push('/');
+    logout();
+  }
 
   const renderUserMenu = (
     <Menu
@@ -39,7 +44,12 @@ const Header = ({ logout, isLoggedIn, username }) => {
       onClose={handleUserMenuClose}
     >
       <MenuItem disabled>Wellcome, {username}</MenuItem>
-      <MenuItem onClick={logout}>Logout</MenuItem>
+      {isTherapist ? (
+        <MenuItem onClick={() => history.push('/user/therapist')}>Professional Info</MenuItem>
+      ) : (
+        <div></div>
+      )}
+      <MenuItem onClick={doLogout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -113,6 +123,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     isLoggedIn: state.account.isLoggedIn,
     username: state.account.username,
+    isTherapist: state.account.isTherapist,
   }
 };
 
