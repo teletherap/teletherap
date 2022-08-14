@@ -22,4 +22,5 @@ urlpatterns = [
     re_path(r'^admin/', admin.site.urls),
     re_path(r'^api/user/', include('user.urls')),
     re_path(r'^api/finance/', include('finance.urls')),
+    re_path(f'^api/therapy/', include('therapy.urls')),
 ]

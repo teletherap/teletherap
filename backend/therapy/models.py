@@ -9,7 +9,7 @@ class Reservation(models.Model):
     therapist = models.ForeignKey('user.Therapist', on_delete=models.CASCADE,
                                   related_name='reservations')
     datetime = models.DateTimeField()
-    
+
     class CommunicationType(models.TextChoices):
         TELEGRAM = 'tlgrm', _('Telegram')
         GOOGLE_MEET = 'gmeet', _('Google Meet')

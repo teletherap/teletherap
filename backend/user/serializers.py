@@ -7,6 +7,8 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import Client, Therapist, TherapistDocuments
 from .verification import Verifier
 from finance.models import Wallet
+from therapy.serializers import PublicReservationSerializer
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
@@ -98,3 +100,17 @@ class PrivateTherapistSerializer(serializers.ModelSerializer):
                   'daily_end_time',
                   'telegram_username',
                   'is_approved', 'documents')
+
+
+class PublicTherapistSerializer(serializers.ModelSerializer):
+    upcoming_reservations = PublicReservationSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Therapist
+        fields = ('user', 'description',
+                  'license_id', 'expertise',
+                  'years_of_experience',
+                  'price_per_session',
+                  'daily_start_time',
+                  'daily_end_time',
+                  'upcoming_reservations')
