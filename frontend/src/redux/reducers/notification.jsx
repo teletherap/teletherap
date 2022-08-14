@@ -22,15 +22,13 @@ const notification = (state = initState, action) => {
       toast.success('Account created. Check your email to verify your account');
       return { ...state };
 
-    case actionTypes.REGISTER_FAILURE:
-      toast.error(action.error);
-      return { ...state };
-
     case actionTypes.ACTIVATION_SUCCESS:
       toast.success('Account activated');
       return { ...state };
 
     case actionTypes.ACTIVATION_FAILURE:
+    case actionTypes.GET_USER_INFO_FAILURE:
+    case actionTypes.REGISTER_FAILURE:
       toast.error(action.error);
       return { ...state };
 

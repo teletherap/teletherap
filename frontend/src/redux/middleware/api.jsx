@@ -34,7 +34,7 @@ export default ({ getState }) =>
       if (!!account && !!account.token) {
         fetchOptions.headers = {
           ...fetchOptions.headers,
-          Authorization: 'Token ' + account.token,
+          Authorization: 'Bearer ' + account.token,
         };
       }
 
