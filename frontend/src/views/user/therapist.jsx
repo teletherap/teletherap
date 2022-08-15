@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Alert, AlertTitle, CssBaseline, Container, Typography, TextField, Button, Stack, List, ListItem, ListItemAvatar, Avatar, ListItemText, IconButton, Dialog, DialogTitle, DialogActions } from '@mui/material';
+import { Alert, AlertTitle, CssBaseline, Container, Typography, TextField, Button, Stack, List, ListItem, ListSubheader, ListItemAvatar, Avatar, ListItemText, IconButton, Dialog, DialogTitle, DialogActions } from '@mui/material';
 import FolderIcon from '@mui/icons-material/Folder';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloudDoneIcon from '@mui/icons-material/CloudDone';
@@ -19,8 +19,8 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
   const [expertise, setExpertise] = useState(therapist.expertise);
   const [yearsOfExperience, setYearsOfExperience] = useState(therapist.yearsOfExperience);
   const [pricePerSession, setPricePerSession] = useState(therapist.pricePerSession);
-  const [dailyStartTime, setDailyStartTime] = useState(therapist.dailyStartTime);
-  const [dailyEndTime, setDailyEndTime] = useState(therapist.dailyEndTime);
+  const [dailyStartTime, setDailyStartTime] = useState(new Date(therapist.dailyStartTime));
+  const [dailyEndTime, setDailyEndTime] = useState(new Date(therapist.dailyEndTime));
   const [telegramUsername, setTelegramUsername] = useState(therapist.telegramUsername);
   const [documents, setDocuments] = useState(therapist.documents);
   const [toBeRemoved, setToBeRemoved] = useState(null);
@@ -38,18 +38,22 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
     setToBeRemoved(null);
   }
 
-  useEffect(async () => {
-    await getPersonalTherapistInfo();
+  useEffect(() => {
+    getPersonalTherapistInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     setDescription(therapist.description);
     setLicenseId(therapist.licenseId);
     setExpertise(therapist.expertise);
     setYearsOfExperience(therapist.yearsOfExperience);
     setPricePerSession(therapist.pricePerSession);
-    setDailyStartTime(therapist.dailyStartTime);
-    setDailyEndTime(therapist.dailyEndTime);
+    setDailyStartTime(new Date(therapist.dailyStartTime));
+    setDailyEndTime(new Date(therapist.dailyEndTime));
     setTelegramUsername(therapist.telegramUsername);
     setDocuments(therapist.documents);
-  }, []);
+  } , [therapist]);
 
   useEffect(() => {
     setDocuments(therapist.documents);
@@ -86,6 +90,8 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
     }
 
     addDocument(documentName, document);
+    setDocumentName('');
+    setDocument(null);
   };
 
   if (!account.isLoggedIn || !account.isTherapist) {
@@ -166,27 +172,32 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
           <Typography variant="h4" component="h1" gutterBottom>
             Documents
           </Typography>
-          <form onSubmit={doAddDocument}>
-            <Stack direction="row" spacing={3}>
-              <TextField
-                label="Document name"
-                value={documentName}
-                onChange={e => setDocumentName(e.target.value)} />
-              <IconButton color="primary" aria-label="upload-document" component="label">
-                <input
-                  hidden
-                  type="file"
-                  onChange={e => setDocument(e.target.files[0])} />
-                {document ? (<CloudDoneIcon />) : (<CloudUploadIcon />)}
-              </IconButton>
-              <Button type="submit" variant="contained" color="primary" disabled={therapist.isFetching}>
-                Add
-              </Button>
-            </Stack>
-          </form>
-          <List>
+          <List
+            subheader={
+              <ListSubheader component="div" id="nested-list-subheader">
+                <form onSubmit={doAddDocument}>
+                  <Stack direction="row" spacing={3}>
+                    <TextField
+                      label="Document name"
+                      value={documentName}
+                      onChange={e => setDocumentName(e.target.value)} />
+                    <IconButton color="primary" aria-label="upload-document" component="label">
+                      <input
+                        hidden
+                        type="file"
+                        onChange={e => setDocument(e.target.files[0])} />
+                      {document ? (<CloudDoneIcon />) : (<CloudUploadIcon />)}
+                    </IconButton>
+                    <Button type="submit" variant="contained" color="primary" disabled={therapist.isFetching}>
+                      Add
+                    </Button>
+                  </Stack>
+                </form>
+              </ListSubheader>
+            }>
             {documents.map(doc => (
               <ListItem
+                key={doc.name}
                 secondaryAction={
                   <IconButton
                     edge="end"
@@ -194,8 +205,9 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
                     onClick={() => openRemoveDialog(doc.name)}>
                     <DeleteIcon />
                   </IconButton>
-                }>
-                  <Link
+                }
+                button>
+                <Link
                   to={{ pathname: doc.document}}
                   target='_blank'>
                   <ListItemAvatar>
@@ -212,7 +224,7 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
           </List>
           <Dialog
             open={removeDialogOpen}
-            onclose={closeRemoveDialog}
+            onClose={closeRemoveDialog}
             aria-labelledby='alert-dialog-title'
             aria-describedby='alert-dialog-description'>
             <DialogTitle id='alert-dialog-title'>

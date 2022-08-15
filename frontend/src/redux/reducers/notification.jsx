@@ -14,7 +14,7 @@ const notification = (state = initState, action) => {
       toast.error('Wrong username or password');
       return { ...state };
 
-    case actionTypes.LOGOUT_REQUEST:
+    case actionTypes.LOGOUT:
       toast.info('Logged out');
       return { ...state };
 
@@ -43,7 +43,6 @@ const notification = (state = initState, action) => {
       return { ...state };
     
     case actionTypes.ADD_THERAPIST_DOCUMENT_FAILURE:
-      console.log(action);
       toast.error('Error adding document');
       return { ...state };
 

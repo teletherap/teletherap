@@ -2,38 +2,45 @@ import * as actionTypes from '../actionTypes';
 import * as URLs from './urls';
 import { CALL_API } from '../middleware/api';
 
-export const login = (username, password) => {
-  return {
-    [CALL_API]: {
-      types: [
-        actionTypes.LOGIN_REQUEST,
-        actionTypes.LOGIN_SUCCESS,
-        actionTypes.LOGIN_FAILURE,
-      ],
-      url: URLs.LOGIN,
-      payload: {
-        username,
-      },
-      fetchOptions: {
-        method: 'POST',
-        body: { username, password },
-      },
-    },
-  };
-}
-
-export const logout = () => ({
+export const login = (username, password) => ({
   [CALL_API]: {
     types: [
-      actionTypes.LOGOUT_REQUEST,
-      actionTypes.LOGOUT_SUCCESS,
-      actionTypes.LOGOUT_FAILURE,
+      actionTypes.LOGIN_REQUEST,
+      actionTypes.LOGIN_SUCCESS,
+      actionTypes.LOGIN_FAILURE,
     ],
-    url: URLs.LOGOUT,
+    url: URLs.LOGIN,
+    payload: {
+      username,
+    },
     fetchOptions: {
       method: 'POST',
+      body: { username, password },
     },
+    afterSuccess: getUserInfo(),
   },
+});
+
+export const refresh = (refreshToken, afterRefresh) => ({
+  [CALL_API]: {
+    types: [
+      actionTypes.REFRESH_REQUEST,
+      actionTypes.REFRESH_SUCCESS,
+      actionTypes.REFRESH_FAILURE,
+    ],
+    url: URLs.REFRESH,
+    fetchOptions: {
+      method: 'POST',
+      body: {
+        refresh: refreshToken,
+      },
+    },
+    afterSuccess: afterRefresh,
+  },
+});
+
+export const logout = () => ({
+  type: actionTypes.LOGOUT,
 });
 
 export const register = (type, username, password, password2, email, firstName, lastName) => ({

@@ -4,6 +4,7 @@ const initState = {
   isFetching: false,
   isLoggedIn: false,
   token: '',
+  refreshToken: '',
   username: '',
   firstName: '',
   lastName: '',
@@ -26,6 +27,15 @@ const account = (state = initState, action) => {
         isFetching: false,
         isLoggedIn: true,
         token: action.response.access,
+        refreshToken: action.response.refresh,
+      };
+
+    case actionTypes.REFRESH_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        isLoggedIn: true,
+        token: action.response.access,
       };
 
     case actionTypes.LOGIN_FAILURE:
@@ -39,7 +49,7 @@ const account = (state = initState, action) => {
         isFetching: false,
       };
 
-    case actionTypes.LOGOUT_REQUEST:
+    case actionTypes.LOGOUT:
       return initState;
 
     case actionTypes.REGISTER_REQUEST:
@@ -68,7 +78,6 @@ const account = (state = initState, action) => {
       };
 
     case actionTypes.GET_USER_INFO_FAILURE:
-      console.log(action.error);
       return {
         ...state,
         isFetching: false,
