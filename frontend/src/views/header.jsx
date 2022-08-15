@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import styled from '@emotion/styled'
 import { AppBar, Toolbar, Button, Typography, Menu, MenuItem, Box, IconButton } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
 import { useHistory } from "react-router-dom";

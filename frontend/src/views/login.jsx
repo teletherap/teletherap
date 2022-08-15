@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { CssBaseline, Container, FormControl, TextField, Button, Grid } from '@mui/material';
-import { login, getUserInfo } from '../redux/actions/account';
+import { login } from '../redux/actions/account';
 import Header from './header';
  
-const Login = ({ login, getUserInfo, isFetching, isLoggedIn }) => {
+const Login = ({ login, isFetching, isLoggedIn }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const doLogin = async (e) => {
+  const doLogin = (e) => {
     e.preventDefault();
 
     if (!username || !password) {
@@ -18,8 +18,7 @@ const Login = ({ login, getUserInfo, isFetching, isLoggedIn }) => {
       return;
     }
 
-    await login(username, password);
-    await getUserInfo();
+    login(username, password);
   }
 
   if (isLoggedIn) {
@@ -65,5 +64,5 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 export default connect(mapStateToProps, {
-  login, getUserInfo,
+  login,
 })(Login);
