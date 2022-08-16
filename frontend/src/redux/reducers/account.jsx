@@ -91,6 +91,11 @@ const account = (state = initState, action) => {
         walletBalance: state.walletBalance + action.payload.amount,
       };
 
+    case actionTypes.WITHDRAW_SUCCESS:
+      return {
+        ...state,
+        walletBalance: state.walletBalance - action.payload.amount,
+      };
     default:
       return state;
   }

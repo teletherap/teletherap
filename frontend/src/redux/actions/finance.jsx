@@ -41,3 +41,24 @@ export const verifyDeposit = (username, amount, authority, status) => ({
     },
   },
 });
+
+export const withdraw = (amount, iban) => ({
+  [CALL_API]: {
+    types: [
+      actionTypes.WITHDRAW_REQUEST,
+      actionTypes.WITHDRAW_SUCCESS,
+      actionTypes.WITHDRAW_FAILURE,
+    ],
+    url: URLs.WITHDRAW,
+    payload: {
+      amount,
+    },
+    fetchOptions: {
+      method: 'POST',
+      body: {
+        amount,
+        iban,
+      },
+    },
+  },
+});

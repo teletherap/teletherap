@@ -54,6 +54,10 @@ const notification = (state = initState, action) => {
       toast.success('Deposit verified');
       return { ...state };
 
+    case actionTypes.WITHDRAW_SUCCESS:
+      toast.success('Withdrawal successful');
+      return { ...state };
+
     case actionTypes.ACTIVATION_FAILURE:
     case actionTypes.GET_USER_INFO_FAILURE:
     case actionTypes.REGISTER_FAILURE:
@@ -61,6 +65,7 @@ const notification = (state = initState, action) => {
     case actionTypes.UPDATE_PERSONAL_THERAPIST_INFO_FAILURE:
     case actionTypes.DEPOSIT_FAILURE:
     case actionTypes.VERIFY_DEPOSIT_FAILURE:
+    case actionTypes.WITHDRAW_FAILURE:
       toast.error(action.error);
       return { ...state };
 
