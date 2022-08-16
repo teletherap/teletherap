@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { AppBar, Toolbar, Button, Typography, Menu, MenuItem, Box, IconButton } from '@mui/material';
-import { AccountCircle } from '@mui/icons-material';
+import { AppBar, Toolbar, Button, Typography, Menu, MenuItem, Box, IconButton, ListItemText, ListItemIcon } from '@mui/material';
+import { AccountCircle, Person, AccountBalanceWallet } from '@mui/icons-material';
+import PsychologyIcon from '@mui/icons-material/Psychology';
+import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { useHistory } from "react-router-dom";
 import { logout } from '../redux/actions/account';
 import Config from '../config';
 
 
-const Header = ({ logout, isLoggedIn, username, isTherapist }) => {
+const Header = ({ logout, isLoggedIn, username, isTherapist, walletBalance }) => {
   const history = useHistory();
   const userMenuId = 'user-menu';
   const [userAnchorEl, setUserAnchorEl] = useState(null)
@@ -42,13 +46,40 @@ const Header = ({ logout, isLoggedIn, username, isTherapist }) => {
       open={isUserMenuOpen}
       onClose={handleUserMenuClose}
     >
-      <MenuItem disabled>Wellcome, {username}</MenuItem>
+      <MenuItem disabled>
+        <ListItemIcon>
+          <Person fontSize="small" />
+        </ListItemIcon>
+        <ListItemText primary={`Welcome, ${username}`} />
+      </MenuItem>
       {isTherapist ? (
-        <MenuItem onClick={() => history.push('/user/therapist')}>Professional Info</MenuItem>
+        <MenuItem onClick={() => history.push('/user/therapist')}>
+          <ListItemIcon>
+            <PsychologyIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText
+            primary="Professional Info"
+            secondary="View and Edit"
+          />
+        </MenuItem>
       ) : (
         <div></div>
       )}
-      <MenuItem onClick={doLogout}>Logout</MenuItem>
+      <MenuItem onClick={() => history.push('/user/wallet')}>
+        <ListItemIcon>
+          <AccountBalanceWallet fontSize="small" />
+        </ListItemIcon>
+        <ListItemText 
+          primary="Wallet"
+          secondary={`${walletBalance} IRT`}
+        />
+      </MenuItem>
+      <MenuItem onClick={doLogout}>
+        <ListItemIcon>
+          <LogoutIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText primary="Logout" />
+      </MenuItem>
     </Menu>
   );
 
@@ -68,8 +99,21 @@ const Header = ({ logout, isLoggedIn, username, isTherapist }) => {
       open={isUserMenuOpen}
       onClose={handleUserMenuClose}
     >
-      <MenuItem onClick={() => history.push('/login')}>Login</MenuItem>
-      <MenuItem onClick={() => history.push('/register')}>Register</MenuItem>
+      <MenuItem onClick={() => history.push('/login')}>
+        <ListItemIcon>
+          <LoginIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText primary="Login" />
+      </MenuItem>
+      <MenuItem onClick={() => history.push('/register')}>
+        <ListItemIcon>
+          <PersonAddAltIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText
+          primary="Register"
+          secondary="As a therapist or client"
+        />
+      </MenuItem>
     </Menu>
   );
 
@@ -123,6 +167,7 @@ const mapStateToProps = (state, ownProps) => {
     isLoggedIn: state.account.isLoggedIn,
     username: state.account.username,
     isTherapist: state.account.isTherapist,
+    walletBalance: state.account.walletBalance
   }
 };
 
