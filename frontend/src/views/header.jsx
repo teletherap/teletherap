@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { AppBar, Toolbar, Button, Typography, Menu, MenuItem, Box, IconButton } from '@mui/material';
-import { AccountCircle } from '@mui/icons-material';
-import { useHistory } from "react-router-dom";
+import { AppBar, Toolbar, Button, Typography, Menu, MenuItem, Box, IconButton, ListItemText, ListItemIcon } from '@mui/material';
+import { AccountCircle, Person, AccountBalanceWallet } from '@mui/icons-material';
+import PsychologyIcon from '@mui/icons-material/Psychology';
+import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import { useNavigate } from "react-router-dom";
 import { logout } from '../redux/actions/account';
 import Config from '../config';
 
 
-const Header = ({ logout, isLoggedIn, username, isTherapist }) => {
-  const history = useHistory();
+const Header = ({ logout, isLoggedIn, username, isTherapist, walletBalance }) => {
+  const navigate = useNavigate();
   const userMenuId = 'user-menu';
   const [userAnchorEl, setUserAnchorEl] = useState(null)
   const isUserMenuOpen = Boolean(userAnchorEl);
@@ -22,7 +26,7 @@ const Header = ({ logout, isLoggedIn, username, isTherapist }) => {
   };
 
   const doLogout = () => {
-    history.push('/');
+    navigate('/');
     logout();
   }
 
@@ -42,13 +46,40 @@ const Header = ({ logout, isLoggedIn, username, isTherapist }) => {
       open={isUserMenuOpen}
       onClose={handleUserMenuClose}
     >
-      <MenuItem disabled>Wellcome, {username}</MenuItem>
+      <MenuItem disabled>
+        <ListItemIcon>
+          <Person fontSize="small" />
+        </ListItemIcon>
+        <ListItemText primary={`Welcome, ${username}`} />
+      </MenuItem>
       {isTherapist ? (
-        <MenuItem onClick={() => history.push('/user/therapist')}>Professional Info</MenuItem>
+        <MenuItem onClick={() => navigate('/user/therapist')}>
+          <ListItemIcon>
+            <PsychologyIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText
+            primary="Professional Info"
+            secondary="View and Edit"
+          />
+        </MenuItem>
       ) : (
         <div></div>
       )}
-      <MenuItem onClick={doLogout}>Logout</MenuItem>
+      <MenuItem onClick={() => navigate('/user/wallet')}>
+        <ListItemIcon>
+          <AccountBalanceWallet fontSize="small" />
+        </ListItemIcon>
+        <ListItemText 
+          primary="Wallet"
+          secondary={`${walletBalance} IRT`}
+        />
+      </MenuItem>
+      <MenuItem onClick={doLogout}>
+        <ListItemIcon>
+          <LogoutIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText primary="Logout" />
+      </MenuItem>
     </Menu>
   );
 
@@ -68,8 +99,21 @@ const Header = ({ logout, isLoggedIn, username, isTherapist }) => {
       open={isUserMenuOpen}
       onClose={handleUserMenuClose}
     >
-      <MenuItem onClick={() => history.push('/login')}>Login</MenuItem>
-      <MenuItem onClick={() => history.push('/register')}>Register</MenuItem>
+      <MenuItem onClick={() => navigate('/login')}>
+        <ListItemIcon>
+          <LoginIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText primary="Login" />
+      </MenuItem>
+      <MenuItem onClick={() => navigate('/register')}>
+        <ListItemIcon>
+          <PersonAddAltIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText
+          primary="Register"
+          secondary="As a therapist or client"
+        />
+      </MenuItem>
     </Menu>
   );
 
@@ -81,7 +125,7 @@ const Header = ({ logout, isLoggedIn, username, isTherapist }) => {
             {Config.Title}
           </Typography>
           <Button color="inherit"
-            onClick={() => history.push('/')}>
+            onClick={() => navigate('/')}>
             Home
           </Button>
           {isLoggedIn ? (
@@ -123,6 +167,7 @@ const mapStateToProps = (state, ownProps) => {
     isLoggedIn: state.account.isLoggedIn,
     username: state.account.username,
     isTherapist: state.account.isTherapist,
+    walletBalance: state.account.walletBalance
   }
 };
 

@@ -46,11 +46,26 @@ const notification = (state = initState, action) => {
       toast.error('Error adding document');
       return { ...state };
 
+    case actionTypes.DEPOSIT_SUCCESS:
+      toast.info('Redirecting to payment page');
+      return { ...state };
+
+    case actionTypes.VERIFY_DEPOSIT_SUCCESS:
+      toast.success('Deposit verified');
+      return { ...state };
+
+    case actionTypes.WITHDRAW_SUCCESS:
+      toast.success('Withdrawal successful');
+      return { ...state };
+
     case actionTypes.ACTIVATION_FAILURE:
     case actionTypes.GET_USER_INFO_FAILURE:
     case actionTypes.REGISTER_FAILURE:
     case actionTypes.GET_PERSONAL_THERAPIST_INFO_FAILURE:
     case actionTypes.UPDATE_PERSONAL_THERAPIST_INFO_FAILURE:
+    case actionTypes.DEPOSIT_FAILURE:
+    case actionTypes.VERIFY_DEPOSIT_FAILURE:
+    case actionTypes.WITHDRAW_FAILURE:
       toast.error(action.error);
       return { ...state };
 

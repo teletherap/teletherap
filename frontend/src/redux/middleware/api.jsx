@@ -22,7 +22,7 @@ const api = ({ getState, dispatch }) => (next) => async (action) => {
   next(actionWith({ payload, type: requestType }));
 
   try {
-    if (!fetchOptions.formData) {
+    if (!fetchOptions.dontStringify) {
       fetchOptions.body = JSON.stringify(fetchOptions.body);
     }
 
@@ -58,6 +58,9 @@ const api = ({ getState, dispatch }) => (next) => async (action) => {
     if (error.message === 'TOKEN EXPIRED' && getState().account.isLoggedIn) {
       if (requestType === actionTypes.REFRESH_REQUEST) {
         return dispatch(logout());
+      }
+      if (fetchOptions.body !== undefined) {
+        fetchOptions.body = JSON.parse(fetchOptions.body);
       }
       return dispatch(refresh(getState().account.refreshToken, action));
     }
