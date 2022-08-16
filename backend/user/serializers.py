@@ -64,13 +64,17 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class UserInfoSerializer(serializers.ModelSerializer):
     is_therapist = serializers.SerializerMethodField()
+    wallet_balance = serializers.SerializerMethodField()
 
-    def get_is_therapist(self, obj: User):
+    def get_is_therapist(self, obj: User) -> bool:
         return Therapist.objects.filter(user=obj).exists()
+
+    def get_wallet_balance(self, obj: User) -> float:
+        return obj.wallet.balance
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'is_therapist')
+        fields = ('username', 'first_name', 'last_name', 'email', 'is_therapist', 'wallet_balance')
 
 
 class ClientRegisterSerializer(RegisterSerializer):

@@ -10,6 +10,7 @@ const initState = {
   lastName: '',
   email: '',
   isTherapist: false,
+  walletBalance: 0,
 };
 
 const account = (state = initState, action) => {
@@ -75,6 +76,7 @@ const account = (state = initState, action) => {
         lastName: action.response.last_name,
         email: action.response.email,
         isTherapist: action.response.is_therapist,
+        walletBalance: action.response.wallet_balance,
       };
 
     case actionTypes.GET_USER_INFO_FAILURE:
