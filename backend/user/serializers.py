@@ -96,9 +96,6 @@ class TherapistDocumentsSerializer(serializers.ModelSerializer):
         model = TherapistDocuments
         fields = ('therapist', 'name', 'document')
 
-    def create(self, validated_data):
-        return super().create(validated_data)
-
 
 class PrivateTherapistSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
