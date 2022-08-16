@@ -59,7 +59,9 @@ const api = ({ getState, dispatch }) => (next) => async (action) => {
       if (requestType === actionTypes.REFRESH_REQUEST) {
         return dispatch(logout());
       }
-      fetchOptions.body = JSON.parse(fetchOptions.body);
+      if (fetchOptions.body !== undefined) {
+        fetchOptions.body = JSON.parse(fetchOptions.body);
+      }
       return dispatch(refresh(getState().account.refreshToken, action));
     }
     return next(

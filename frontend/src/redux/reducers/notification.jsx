@@ -47,7 +47,11 @@ const notification = (state = initState, action) => {
       return { ...state };
 
     case actionTypes.DEPOSIT_SUCCESS:
-      toast.success('Redirecting to payment page');
+      toast.info('Redirecting to payment page');
+      return { ...state };
+
+    case actionTypes.VERIFY_DEPOSIT_SUCCESS:
+      toast.success('Deposit verified');
       return { ...state };
 
     case actionTypes.ACTIVATION_FAILURE:
@@ -56,6 +60,7 @@ const notification = (state = initState, action) => {
     case actionTypes.GET_PERSONAL_THERAPIST_INFO_FAILURE:
     case actionTypes.UPDATE_PERSONAL_THERAPIST_INFO_FAILURE:
     case actionTypes.DEPOSIT_FAILURE:
+    case actionTypes.VERIFY_DEPOSIT_FAILURE:
       toast.error(action.error);
       return { ...state };
 

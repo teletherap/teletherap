@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { CssBaseline, Container, Typography, Stack, TextField, Button } from '@mui/material';
 import { deposit } from '../../redux/actions/finance';
@@ -11,7 +11,7 @@ const Wallet = ({ deposit, account, finance }) => {
 
   if (!account.isLoggedIn) {
     toast.error('You are not authorized to view this page');
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   }
 
   const doDeposit = async (e) => {

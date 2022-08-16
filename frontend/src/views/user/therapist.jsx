@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Alert, AlertTitle, CssBaseline, Container, Typography, TextField, Button, Stack, List, ListItem, ListSubheader, ListItemAvatar, Avatar, ListItemText, IconButton, Dialog, DialogTitle, DialogActions } from '@mui/material';
 import FolderIcon from '@mui/icons-material/Folder';
@@ -96,7 +96,7 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
 
   if (!account.isLoggedIn || !account.isTherapist) {
     toast.error('You are not authorized to view this page');
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   }
 
   return (
@@ -207,15 +207,16 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
                   </IconButton>
                 }
                 button>
-                <Link
-                  to={{ pathname: doc.document}}
-                  target='_blank'>
+                <a
+                  href={doc.document}
+                  target='_blank'
+                  rel="noreferrer">
                   <ListItemAvatar>
                     <Avatar>
                       <FolderIcon />
                     </Avatar>
                   </ListItemAvatar>
-                </Link>
+                </a>
                 <ListItemText
                   primary={doc.name}
                   secondary={doc.document} />

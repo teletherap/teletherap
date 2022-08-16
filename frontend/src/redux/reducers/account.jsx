@@ -85,6 +85,12 @@ const account = (state = initState, action) => {
         isFetching: false,
       };
 
+    case actionTypes.VERIFY_DEPOSIT_SUCCESS:
+      return {
+        ...state,
+        walletBalance: state.walletBalance + action.payload.amount,
+      };
+
     default:
       return state;
   }

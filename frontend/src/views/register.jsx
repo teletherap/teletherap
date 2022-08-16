@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { CssBaseline, Container, FormControl, TextField, Button, Grid } from '@mui/material';
 import { register } from '../redux/actions/account';
@@ -26,7 +26,7 @@ const Register = ({ register, isFetching, isLoggedIn }) => {
   }
 
   if (isLoggedIn) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   }
 
   return (

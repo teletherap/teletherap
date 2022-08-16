@@ -24,3 +24,20 @@ export const deposit = (amount) => ({
 export const redirectToPaymentPage = () => ({
   type: actionTypes.REDIRECT_TO_PAYMENT_PAGE,
 });
+
+export const verifyDeposit = (username, amount, authority, status) => ({
+  [CALL_API]: {
+    types: [
+      actionTypes.VERIFY_DEPOSIT_REQUEST,
+      actionTypes.VERIFY_DEPOSIT_SUCCESS,
+      actionTypes.VERIFY_DEPOSIT_FAILURE,
+    ],
+    url: `${URLs.VERIFY_DEPOSIT}${username}/${amount}/?Authority=${authority}&Status=${status}`,
+    payload: {
+      amount,
+    },
+    fetchOptions: {
+      method: 'GET',
+    },
+  },
+});

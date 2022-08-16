@@ -6,13 +6,13 @@ import PsychologyIcon from '@mui/icons-material/Psychology';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { logout } from '../redux/actions/account';
 import Config from '../config';
 
 
 const Header = ({ logout, isLoggedIn, username, isTherapist, walletBalance }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const userMenuId = 'user-menu';
   const [userAnchorEl, setUserAnchorEl] = useState(null)
   const isUserMenuOpen = Boolean(userAnchorEl);
@@ -26,7 +26,7 @@ const Header = ({ logout, isLoggedIn, username, isTherapist, walletBalance }) =>
   };
 
   const doLogout = () => {
-    history.push('/');
+    navigate('/');
     logout();
   }
 
@@ -53,7 +53,7 @@ const Header = ({ logout, isLoggedIn, username, isTherapist, walletBalance }) =>
         <ListItemText primary={`Welcome, ${username}`} />
       </MenuItem>
       {isTherapist ? (
-        <MenuItem onClick={() => history.push('/user/therapist')}>
+        <MenuItem onClick={() => navigate('/user/therapist')}>
           <ListItemIcon>
             <PsychologyIcon fontSize="small" />
           </ListItemIcon>
@@ -65,7 +65,7 @@ const Header = ({ logout, isLoggedIn, username, isTherapist, walletBalance }) =>
       ) : (
         <div></div>
       )}
-      <MenuItem onClick={() => history.push('/user/wallet')}>
+      <MenuItem onClick={() => navigate('/user/wallet')}>
         <ListItemIcon>
           <AccountBalanceWallet fontSize="small" />
         </ListItemIcon>
@@ -99,13 +99,13 @@ const Header = ({ logout, isLoggedIn, username, isTherapist, walletBalance }) =>
       open={isUserMenuOpen}
       onClose={handleUserMenuClose}
     >
-      <MenuItem onClick={() => history.push('/login')}>
+      <MenuItem onClick={() => navigate('/login')}>
         <ListItemIcon>
           <LoginIcon fontSize="small" />
         </ListItemIcon>
         <ListItemText primary="Login" />
       </MenuItem>
-      <MenuItem onClick={() => history.push('/register')}>
+      <MenuItem onClick={() => navigate('/register')}>
         <ListItemIcon>
           <PersonAddAltIcon fontSize="small" />
         </ListItemIcon>
@@ -125,7 +125,7 @@ const Header = ({ logout, isLoggedIn, username, isTherapist, walletBalance }) =>
             {Config.Title}
           </Typography>
           <Button color="inherit"
-            onClick={() => history.push('/')}>
+            onClick={() => navigate('/')}>
             Home
           </Button>
           {isLoggedIn ? (

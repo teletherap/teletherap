@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { activate } from '../redux/actions/account';
  
 const ActivateAccount = ({ activate }) => {
@@ -10,7 +10,7 @@ const ActivateAccount = ({ activate }) => {
     activate(username, token);
   });
 
-  return <Redirect to="/login" />;
+  return <Navigate to="/login" />;
 };
 
 const mapStateToProps = (state, ownProps) => {
