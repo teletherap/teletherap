@@ -80,7 +80,7 @@ export const addDocument = (name, document) => {
         method: 'POST',
         body: formData,
         dontContentType: true,
-        formData: true,
+        dontStringify: true,
       },
     },
   }
