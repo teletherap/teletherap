@@ -66,6 +66,7 @@ const notification = (state = initState, action) => {
     case actionTypes.DEPOSIT_FAILURE:
     case actionTypes.VERIFY_DEPOSIT_FAILURE:
     case actionTypes.WITHDRAW_FAILURE:
+    case actionTypes.GET_THERAPISTS_FAILURE:
       toast.error(action.error);
       return { ...state };
 

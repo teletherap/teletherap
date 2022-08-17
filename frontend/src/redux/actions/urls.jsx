@@ -11,3 +11,4 @@ export const THERAPIST_DOCUMENTS = Config.ApiBaseUrl.concat('/user/therapist/doc
 export const DEPOSIT = Config.ApiBaseUrl.concat('/finance/deposit/request/');
 export const VERIFY_DEPOSIT = Config.ApiBaseUrl.concat('/finance/deposit/verify/');
 export const WITHDRAW = Config.ApiBaseUrl.concat('/finance/withdraw/');
+export const THERAPIST = Config.ApiBaseUrl.concat('/therapy/therapist/');

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
-from django.db import transaction
+from django.db import transaction, models
 from rest_framework import serializers, validators
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -8,6 +8,7 @@ from .models import Client, Therapist, TherapistDocuments
 from .verification import Verifier
 from finance.models import Wallet
 from therapy.serializers import PublicReservationSerializer
+from therapy.models import Review, Reservation
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -116,6 +117,24 @@ class PrivateTherapistSerializer(serializers.ModelSerializer):
 
 class PublicTherapistSerializer(serializers.ModelSerializer):
     upcoming_reservations = PublicReservationSerializer(many=True, read_only=True)
+    first_name = serializers.SerializerMethodField()
+    last_name = serializers.SerializerMethodField()
+    average_rating = serializers.SerializerMethodField()
+    attended_sessions_count = serializers.SerializerMethodField()
+
+    def get_first_name(self, obj: Therapist):
+        return obj.user.first_name
+
+    def get_last_name(self, obj: Therapist):
+        return obj.user.last_name
+
+    def get_average_rating(self, obj: Therapist):
+        return Review.objects \
+            .filter(reservation__therapist=obj) \
+            .aggregate(average_rating=models.Avg('rating'))['average_rating']
+
+    def get_attended_sessions_count(self, obj: Therapist):
+        return obj.reservations.filter(state=Reservation.State.ATTENDED).count()
 
     class Meta:
         model = Therapist
@@ -125,4 +144,7 @@ class PublicTherapistSerializer(serializers.ModelSerializer):
                   'price_per_session',
                   'daily_start_time',
                   'daily_end_time',
-                  'upcoming_reservations')
+                  'upcoming_reservations',
+                  'first_name', 'last_name',
+                  'average_rating',
+                  'attended_sessions_count')
