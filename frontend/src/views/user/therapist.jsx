@@ -10,19 +10,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { getPersonalTherapistInfo, updatePersonalTherapistInfo, removeDocument, addDocument } from '../../redux/actions/therapist';
+import { getPersonalTherapistInfo, updatePersonalTherapistInfo, removeDocument, addDocument } from '../../redux/actions/account';
 import Header from '../header';
  
-const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo, removeDocument, addDocument, therapist, account }) => {
-  const [description, setDescription] = useState(therapist.description);
-  const [licenseId, setLicenseId] = useState(therapist.licenseId);
-  const [expertise, setExpertise] = useState(therapist.expertise);
-  const [yearsOfExperience, setYearsOfExperience] = useState(therapist.yearsOfExperience);
-  const [pricePerSession, setPricePerSession] = useState(therapist.pricePerSession);
-  const [dailyStartTime, setDailyStartTime] = useState(new Date(therapist.dailyStartTime));
-  const [dailyEndTime, setDailyEndTime] = useState(new Date(therapist.dailyEndTime));
-  const [telegramUsername, setTelegramUsername] = useState(therapist.telegramUsername);
-  const [documents, setDocuments] = useState(therapist.documents);
+const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo, removeDocument, addDocument, account }) => {
+  const [description, setDescription] = useState(account.therapist.description);
+  const [licenseId, setLicenseId] = useState(account.therapist.licenseId);
+  const [expertise, setExpertise] = useState(account.therapist.expertise);
+  const [yearsOfExperience, setYearsOfExperience] = useState(account.therapist.yearsOfExperience);
+  const [pricePerSession, setPricePerSession] = useState(account.therapist.pricePerSession);
+  const [dailyStartTime, setDailyStartTime] = useState(new Date(account.therapist.dailyStartTime));
+  const [dailyEndTime, setDailyEndTime] = useState(new Date(account.therapist.dailyEndTime));
+  const [telegramUsername, setTelegramUsername] = useState(account.therapist.telegramUsername);
+  const [documents, setDocuments] = useState(account.therapist.documents);
   const [toBeRemoved, setToBeRemoved] = useState(null);
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
   const [documentName, setDocumentName] = useState('');
@@ -44,20 +44,20 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
   }, []);
 
   useEffect(() => {
-    setDescription(therapist.description);
-    setLicenseId(therapist.licenseId);
-    setExpertise(therapist.expertise);
-    setYearsOfExperience(therapist.yearsOfExperience);
-    setPricePerSession(therapist.pricePerSession);
-    setDailyStartTime(new Date(therapist.dailyStartTime));
-    setDailyEndTime(new Date(therapist.dailyEndTime));
-    setTelegramUsername(therapist.telegramUsername);
-    setDocuments(therapist.documents);
-  } , [therapist]);
+    setDescription(account.therapist.description);
+    setLicenseId(account.therapist.licenseId);
+    setExpertise(account.therapist.expertise);
+    setYearsOfExperience(account.therapist.yearsOfExperience);
+    setPricePerSession(account.therapist.pricePerSession);
+    setDailyStartTime(new Date(account.therapist.dailyStartTime));
+    setDailyEndTime(new Date(account.therapist.dailyEndTime));
+    setTelegramUsername(account.therapist.telegramUsername);
+    setDocuments(account.therapist.documents);
+  } , [account.therapist]);
 
   useEffect(() => {
-    setDocuments(therapist.documents);
-  } ,[therapist.documents]);
+    setDocuments(account.therapist.documents);
+  } ,[account.therapist.documents]);
 
   const doUpdate = (e) => {
     e.preventDefault();
@@ -105,7 +105,7 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
       <CssBaseline />
       <Container maxWidth="lg" className="bg-white shadow" style={{ padding: 25 }}>
         <Stack spacing={3}>
-          {therapist.isApproved ? (
+          {account.therapist.isApproved ? (
             null
           ) : (
             <Alert severity="warning">
@@ -163,7 +163,7 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
                     value={telegramUsername}
                     onChange={e => setTelegramUsername(e.target.value)} />
                 </Stack>
-                <Button type="submit" variant="contained" color="primary" disabled={therapist.isFetching}>
+                <Button type="submit" variant="contained" color="primary" disabled={account.therapist.isFetching}>
                   Update
                 </Button>
               </Stack>
@@ -188,7 +188,7 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
                         onChange={e => setDocument(e.target.files[0])} />
                       {document ? (<CloudDoneIcon />) : (<CloudUploadIcon />)}
                     </IconButton>
-                    <Button type="submit" variant="contained" color="primary" disabled={therapist.isFetching}>
+                    <Button type="submit" variant="contained" color="primary" disabled={account.therapist.isFetching}>
                       Add
                     </Button>
                   </Stack>
@@ -244,7 +244,6 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    therapist: state.therapist,
     account: state.account,
   }
 };
