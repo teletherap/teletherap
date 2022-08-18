@@ -38,6 +38,7 @@ class ReservationTransaction(models.Model):
     reservation = models.OneToOneField('therapy.Reservation', on_delete=models.CASCADE,
                                        related_name='transaction')
     amount = models.FloatField()
+    is_rollbacked = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.reservation}\'s transaction: {self.amount}'

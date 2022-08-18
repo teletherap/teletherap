@@ -25,6 +25,7 @@ const Wallet = ({ deposit, withdraw, account }) => {
     }
 
     await deposit(depositAmount);
+    setDepositAmount(0);
   }
 
   const doWithdraw = async (e) => {
@@ -36,6 +37,8 @@ const Wallet = ({ deposit, withdraw, account }) => {
     }
 
     await withdraw(withdrawAmount, withdrawIban);
+    setWithdrawAmount(0);
+    setWithdrawIban('');
   }
 
   return (

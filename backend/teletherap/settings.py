@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'jet.dashboard',
     'corsheaders',
+    'rest_framework',
     'user',
     'finance',
     'therapy',
