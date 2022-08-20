@@ -1,27 +1,20 @@
-import React, { Fragment, useEffect } from 'react';
-import { Alert, CssBaseline, Container, AlertTitle } from '@mui/material';
-import Header from './header';
+import React, { useEffect } from 'react';
+import { Alert, AlertTitle } from '@mui/material';
 import Config from '../config';
 
 const NotFound = () => {
   useEffect(() => {
-    document.title = `${Config.Title} | Not Found!`;
+    document.title = `Not Found! | ${Config.Title}`;
   })
 
   return (
-    <Fragment>
-      <Header />
-      <CssBaseline />
-      <Container maxWidth="lg" className="bg-white shadow" style={{ padding: 25 }}>
-        <Alert severity="error">
-          <AlertTitle>Page not found!</AlertTitle>
-          <code>
-            {window.location.pathname}
-          </code>
-        </Alert>
-      </Container>
-    </Fragment>
-  )
+    <Alert severity="error">
+      <AlertTitle>Page not found!</AlertTitle>
+      <code>
+        {window.location.pathname}
+      </code>
+    </Alert>
+  );
 };
 
 export default NotFound;
