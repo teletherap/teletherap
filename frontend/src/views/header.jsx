@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { logout } from '../redux/actions/account';
 import Config from '../config';
 
-
 const Header = ({ logout, isLoggedIn, username, isTherapist, walletBalance }) => {
   const navigate = useNavigate();
   const userMenuId = 'user-menu';
