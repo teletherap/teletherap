@@ -10,6 +10,12 @@ class IsTherapist(permissions.BasePermission):
     def has_permission(self, request: HttpRequest, view):
         return models.Therapist.objects.filter(user=request.user).exists()
 
+class IsNotApprovedTherapist(permissions.BasePermission):
+    message = 'You are already approved as a therapist. You cannot perform this action.'
+
+    def has_permission(self, request: HttpRequest, view):
+        return request.user.therapist.is_approved is False
+
 
 class IsClient(permissions.BasePermission):
     message = 'You must be a client to perform this action.'

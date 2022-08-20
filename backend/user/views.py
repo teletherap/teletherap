@@ -48,7 +48,8 @@ class TherapistDocumentCD(mixins.CreateModelMixin, mixins.DestroyModelMixin, gen
     queryset = models.TherapistDocuments
     permission_classes = (permissions.IsAuthenticated,
                           user_permissions.IsTherapist,
-                          user_permissions.IsDocumentOwner)
+                          user_permissions.IsDocumentOwner,
+                          user_permissions.IsNotApprovedTherapist)
     serializer_class = serializers.TherapistDocumentsSerializer
 
     def post(self, request, *args, **kwargs):
