@@ -175,6 +175,11 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
       <List
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
+          {account.therapist.isApproved ?
+            <Alert severity="warning">
+              <AlertTitle>Documents cannot be updated after approval!</AlertTitle>
+            </Alert>
+          :
             <form onSubmit={doAddDocument}>
               <Stack direction="row" spacing={3}>
                 <TextField
@@ -193,6 +198,7 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
                 </Button>
               </Stack>
             </form>
+          }
           </ListSubheader>
         }>
         {documents.map(doc => (
@@ -202,6 +208,7 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
               <IconButton
                 edge="end"
                 aria-label="delete"
+                disabled={account.therapist.isApproved}
                 onClick={() => openRemoveDialog(doc.name)}>
                 <DeleteIcon />
               </IconButton>
