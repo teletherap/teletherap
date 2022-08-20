@@ -22,7 +22,8 @@ const initState = {
     telegramUsername: '',
     isApproved: false,
     documents: [],
-  }
+  },
+  reservations: [],
 };
 
 const account = (state = initState, action) => {
@@ -174,7 +175,19 @@ const account = (state = initState, action) => {
         },
       };
 
-      default:
+    case actionTypes.GET_RESERVATIONS_SUCCESS:
+      return {
+        ...state,
+        reservations: action.response,
+      };
+
+    case actionTypes.CANCEL_RESERVATION_SUCCESS:
+      return {
+        ...state,
+        reservations: state.reservations.filter(reservation => reservation.id !== action.payload.id),
+      };
+
+    default:
       return state;
   }
 }

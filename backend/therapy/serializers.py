@@ -19,10 +19,19 @@ class PublicReservationSerializer(serializers.ModelSerializer):
 
 class ReservationSerializer(serializers.ModelSerializer):
     state = serializers.CharField(read_only=True)
+    therapist_name = serializers.SerializerMethodField()
+    client_name = serializers.SerializerMethodField()
+
+    def get_therapist_name(self, obj: Reservation):
+        return f'{obj.therapist.user.first_name} {obj.therapist.user.last_name}'
+
+    def get_client_name(self, obj: Reservation):
+        return f'{obj.client.user.first_name} {obj.client.user.last_name}'
 
     class Meta:
         model = Reservation
-        fields = ('id', 'client', 'therapist', 'datetime', 'communication_type', 'state')
+        fields = ('id', 'client', 'therapist', 'datetime', 'communication_type', 'state',
+                  'therapist_name', 'client_name')
 
     def validate(self, attrs):
         therapist = get_object_or_404(Therapist, pk=attrs['therapist'])
