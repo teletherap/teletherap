@@ -9,6 +9,7 @@ import ActivateAccount from './views/activateAccount';
 import UpdateTherapist from './views/user/therapist';
 import Wallet from './views/user/wallet';
 import VerifyDeposit from './views/user/verifyDeposit';
+import Calendar from './views/user/calendar';
 import Header from './views/header';
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
             <Route exact path="/user/therapist" element={<UpdateTherapist />} />
             <Route exact path="/user/wallet" element={<Wallet />} />
             <Route exact path="/user/deposit/verify/:username/:amount" element={<VerifyDeposit />} />
+            <Route exact path="/user/calendar" element={<Calendar />} />
             <Route exact path='/' element={<Home />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

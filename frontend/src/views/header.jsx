@@ -6,6 +6,7 @@ import PsychologyIcon from '@mui/icons-material/Psychology';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useNavigate } from "react-router-dom";
 import { logout } from '../redux/actions/account';
 import Config from '../config';
@@ -71,6 +72,15 @@ const Header = ({ logout, isLoggedIn, username, isTherapist, walletBalance }) =>
         <ListItemText 
           primary="Wallet"
           secondary={`${walletBalance} IRT`}
+        />
+      </MenuItem>
+      <MenuItem onClick={() => navigate('/user/calendar')}>
+        <ListItemIcon>
+          <CalendarMonthIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText
+          primary="Calendar"
+          secondary="See your appointments"
         />
       </MenuItem>
       <MenuItem onClick={doLogout}>
