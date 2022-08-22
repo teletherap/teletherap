@@ -13,7 +13,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { getPersonalTherapistInfo, updatePersonalTherapistInfo, removeDocument, addDocument } from '../../redux/actions/account';
 import Config from '../../config';
  
-const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo, removeDocument, addDocument, account }) => {
+const Therapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo, removeDocument, addDocument, account }) => {
   const [description, setDescription] = useState(account.therapist.description);
   const [licenseId, setLicenseId] = useState(account.therapist.licenseId);
   const [expertise, setExpertise] = useState(account.therapist.expertise);
@@ -163,7 +163,7 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
                 value={telegramUsername}
                 onChange={e => setTelegramUsername(e.target.value)} />
             </Stack>
-            <Button type="submit" variant="contained" color="primary" disabled={account.therapist.isFetching}>
+            <Button type="submit" variant="contained" color="primary" disabled={account.isFetching}>
               Update
             </Button>
           </Stack>
@@ -193,7 +193,7 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
                     onChange={e => setAddingDocument(e.target.files[0])} />
                   {addingDocument ? (<CloudDoneIcon />) : (<CloudUploadIcon />)}
                 </IconButton>
-                <Button type="submit" variant="contained" color="primary" disabled={account.therapist.isFetching}>
+                <Button type="submit" variant="contained" color="primary" disabled={account.isFetching}>
                   Add
                 </Button>
               </Stack>
@@ -256,4 +256,4 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps, {
   getPersonalTherapistInfo, updatePersonalTherapistInfo,
   removeDocument, addDocument,
-})(UpdateTherapist);
+})(Therapist);

@@ -6,7 +6,8 @@ import Login from './views/login';
 import Register from './views/register';
 import NotFound from './views/notFound';
 import ActivateAccount from './views/activateAccount';
-import UpdateTherapist from './views/user/therapist';
+import Therapist from './views/user/therapist';
+import Client from './views/user/client';
 import Wallet from './views/user/wallet';
 import VerifyDeposit from './views/user/verifyDeposit';
 import Calendar from './views/user/calendar';
@@ -23,7 +24,8 @@ const App = () => {
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/register" element={<Register />} />
             <Route exact path='/activate/:username/:token' element={<ActivateAccount />} />
-            <Route exact path="/user/therapist" element={<UpdateTherapist />} />
+            <Route exact path="/user/therapist" element={<Therapist />} />
+            <Route exact path="/user/client" element={<Client />} />
             <Route exact path="/user/wallet" element={<Wallet />} />
             <Route exact path="/user/deposit/verify/:username/:amount" element={<VerifyDeposit />} />
             <Route exact path="/user/calendar" element={<Calendar />} />

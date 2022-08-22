@@ -93,7 +93,6 @@ export const getUserInfo = () => ({
   },
 });
 
-
 export const getPersonalTherapistInfo = () => ({
   [CALL_API]: {
     types: [
@@ -176,3 +175,34 @@ export const addDocument = (name, document) => {
     },
   }
 };
+
+export const getPersonalClientInfo = () => ({
+  [CALL_API]: {
+    types: [
+      actionTypes.GET_PERSONAL_CLIENT_INFO_REQUEST,
+      actionTypes.GET_PERSONAL_CLIENT_INFO_SUCCESS,
+      actionTypes.GET_PERSONAL_CLIENT_INFO_FAILURE,
+    ],
+    url: URLs.PERSONAL_CLIENT_INFO,
+    fetchOptions: {
+      method: 'GET',
+    },
+  },
+});
+
+export const updatePersonalClientInfo = (telegramUsername) => ({
+  [CALL_API]: {
+    types: [
+      actionTypes.UPDATE_PERSONAL_CLIENT_INFO_REQUEST,
+      actionTypes.UPDATE_PERSONAL_CLIENT_INFO_SUCCESS,
+      actionTypes.UPDATE_PERSONAL_CLIENT_INFO_FAILURE,
+    ],
+    url: URLs.PERSONAL_CLIENT_INFO,
+    fetchOptions: {
+      method: 'PUT',
+      body: {
+        telegram_username: telegramUsername,
+      },
+    },
+  },
+});

@@ -63,7 +63,15 @@ const Header = ({ logout, isLoggedIn, username, isTherapist, walletBalance }) =>
           />
         </MenuItem>
       ) : (
-        <div></div>
+        <MenuItem onClick={() => navigate('/user/client')}>
+          <ListItemIcon>
+            <Person fontSize="small" />
+          </ListItemIcon>
+          <ListItemText
+            primary="Personal Info"
+            secondary="View and Edit"
+          />
+        </MenuItem>
       )}
       <MenuItem onClick={() => navigate('/user/wallet')}>
         <ListItemIcon>
