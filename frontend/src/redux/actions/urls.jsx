@@ -14,4 +14,6 @@ export const VERIFY_DEPOSIT = Config.ApiBaseUrl.concat('/finance/deposit/verify/
 export const WITHDRAW = Config.ApiBaseUrl.concat('/finance/withdraw/');
 export const THERAPIST = Config.ApiBaseUrl.concat('/therapy/therapist/');
 export const THERAPIST_RESERVATIONS = Config.ApiBaseUrl.concat('/therapy/therapist/reservation/');
+export const THERAPIST_REVIEWS = Config.ApiBaseUrl.concat('/therapy/therapist/review/');
 export const CLIENT_RESERVATIONS = Config.ApiBaseUrl.concat('/therapy/client/reservation/');
+export const CLIENT_REVIEWS = Config.ApiBaseUrl.concat('/therapy/client/review/');

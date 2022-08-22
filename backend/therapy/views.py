@@ -100,10 +100,20 @@ class TherapistReservationAttend(BaseReservationAttend):
         return reservation.url_for_therapist
 
 
-class ReviewViewSet(viewsets.ModelViewSet):
+class BaseReviewViewSet(viewsets.ModelViewSet):
     queryset = models.Review.objects.all()
     serializer_class = serializers.ReviewSerializer
+
+
+class ClientReviewViewSet(BaseReviewViewSet):
     permission_classes = (permissions.IsAuthenticated, user_permissions.IsClient)
 
     def get_queryset(self):
         return super().get_queryset().filter(reservation__client=self.request.user.client)
+
+
+class TherapistReviewViewSet(BaseReviewViewSet):
+    permission_classes = (permissions.IsAuthenticated, user_permissions.IsTherapist)
+
+    def get_queryset(self):
+        return super().get_queryset().filter(reservation__therapist=self.request.user.therapist)
