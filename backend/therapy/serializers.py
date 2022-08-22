@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from uuid import uuid4
 
 from django.db import transaction
 from django.utils import timezone
@@ -14,11 +15,11 @@ from finance.models import ReservationTransaction, Wallet
 class PublicReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
-        fields = ('therapist', 'datetime', 'state')
+        fields = ('therapist', 'datetime', 'current_state')
 
 
 class ReservationSerializer(serializers.ModelSerializer):
-    state = serializers.CharField(read_only=True)
+    current_state = serializers.CharField(read_only=True)
     therapist_name = serializers.SerializerMethodField()
     client_name = serializers.SerializerMethodField()
 
@@ -30,7 +31,7 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reservation
-        fields = ('id', 'client', 'therapist', 'datetime', 'communication_type', 'state',
+        fields = ('id', 'client', 'therapist', 'datetime', 'communication_type', 'current_state',
                   'therapist_name', 'client_name')
 
     def validate(self, attrs):
@@ -58,6 +59,16 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
+        if validated_data['communication_type'] == Reservation.CommunicationType.VIDEO:
+            validated_data['url_for_client'] = \
+                validated_data['url_for_therapist'] = \
+                f'https://meet.jit.si/teletherap-{uuid4()}'
+        else:
+            therapist = get_object_or_404(Therapist, pk=validated_data['therapist'])
+            validated_data['url_for_client'] = f'https://t.me/{therapist.telegram_username}'
+            client = get_object_or_404(Client, pk=validated_data['client'])
+            validated_data['url_for_therapist'] = f'https://t.me/{client.telegram_username}'
+
         reservation: Reservation = super().create(validated_data)
         reservation_transaction = ReservationTransaction.objects.create(reservation=reservation,
                                                                         amount=reservation.therapist.price_per_session)

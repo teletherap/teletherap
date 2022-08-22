@@ -187,6 +187,10 @@ const account = (state = initState, action) => {
         reservations: state.reservations.filter(reservation => reservation.id !== action.payload.id),
       };
 
+    case actionTypes.ATTEND_SESSION_SUCCESS:
+      window.open(action.response.session_url, '_blank');
+      return state;
+
     default:
       return state;
   }

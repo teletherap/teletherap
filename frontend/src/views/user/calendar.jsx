@@ -2,22 +2,23 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Typography, Stack, Alert, List, ListItem, IconButton, ListItemAvatar, Avatar, ListItemText, Dialog, DialogTitle, DialogActions, Button, Divider } from '@mui/material';
-import { getReservations, cancelReservation } from '../../redux/actions/therapy';
+import { Typography, Stack, Alert, List, ListItem, IconButton, ListItemAvatar, Avatar, ListItemText, Dialog, DialogTitle, DialogActions, Button, Divider, colors, Tooltip } from '@mui/material';
+import { getReservations, cancelReservation, attendSession } from '../../redux/actions/therapy';
 import CancelIcon from '@mui/icons-material/Cancel';
 import PsychologyIcon from '@mui/icons-material/Psychology'
 import PersonIcon from '@mui/icons-material/Person';
-import FileOpenIcon from '@mui/icons-material/FileOpen';
+import TelegramIcon from '@mui/icons-material/Telegram';
+import VideoCallIcon from '@mui/icons-material/VideoCall';
 import Config from '../../config';
 
-const Calendar = ({ getReservations, cancelReservation, account }) => {
+const Calendar = ({ getReservations, cancelReservation, attendSession, account }) => {
   const [incomingReservations, setIncomingReservations] = useState([]);
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [toBeCanceled, setToBeCanceled] = useState(null);
-
+  [1, 2].includes()
   useEffect(() => {
     const incoming = account.reservations
-      .filter(reservation => reservation.state === 'resd');
+      .filter(reservation => ['resd', 'ongo'].includes(reservation.current_state));
     incoming.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
     setIncomingReservations(incoming);
   }, [account.reservations]);
@@ -54,14 +55,10 @@ const Calendar = ({ getReservations, cancelReservation, account }) => {
 
 
   const attend = (reservation) => {
+    attendSession(reservation.id, account.isTherapist);
   };
 
-  const isOngoing = (reservation) => {
-    const now = new Date();
-    const start = new Date(reservation.datetime);
-    const end = new Date(start.getTime() + 60 * 60 * 1000);
-    return start <= now && now <= end;
-  };
+  const isOngoing = (reservation) => reservation.current_state === 'ongo';
 
   return (
     <Stack spacing={3}>
@@ -70,32 +67,46 @@ const Calendar = ({ getReservations, cancelReservation, account }) => {
       </Typography>
       {
         incomingReservations.length > 0 ?
-          <List sx={{ bgcolor: '#f5f5f5' }}>
+          <List
+            subheader={
+              <Typography variant="h5" component="h2" gutterBottom m={2}>
+                Incoming reservations
+              </Typography>
+            }
+            className='shadow'
+            sx={{ bgcolor: colors.grey[100], borderRadius: 2 }}>
             {incomingReservations.map(reservation => (
               <Fragment key={reservation.id}>
                 <ListItem
+                  sx={{ bgcolor: isOngoing(reservation) ? colors.green[100] : colors.grey[100] }}
                   secondaryAction={
-                    <IconButton
-                      edge="end"
-                      aria-label="cancel"
-                      disabled={isOngoing(reservation)}
-                      onClick={() => openCancelDialog(reservation)}>
-                      <CancelIcon />
-                    </IconButton>
+                    <Tooltip title={isOngoing(reservation) ? 'Ongoing' : 'Cancel'}>
+                      <span>
+                        <IconButton
+                          edge="end"
+                          aria-label="cancel"
+                          disabled={isOngoing(reservation)}
+                          onClick={() => openCancelDialog(reservation)}>
+                          <CancelIcon />
+                        </IconButton>
+                      </span>
+                    </Tooltip>  
                   }>
-                  <IconButton
-                    edge="start"
-                    aria-label="attend"
-                    color='success'
-                    disabled={!isOngoing(reservation)}
-                    onClick={() => attend(reservation)}>                  
+                  <Tooltip title={isOngoing(reservation) ? 'Attend' : 'Not started yet'}>
                     <ListItemAvatar>
-                      <Avatar
-                      sx={{ bgcolor: isOngoing(reservation) ? 'success.main' : 'grey.500' }}>
-                        <FileOpenIcon />
-                      </Avatar>
+                      <IconButton
+                        edge="start"
+                        aria-label="attend"
+                        color='success'
+                        disabled={!isOngoing(reservation)}
+                        onClick={() => attend(reservation)}>                  
+                        <Avatar
+                          sx={{ bgcolor: isOngoing(reservation) ? colors.green[600] : colors.grey[600] }}>
+                          {reservation.communication_type === 'video' ? <VideoCallIcon /> : <TelegramIcon />}
+                        </Avatar>
+                      </IconButton>
                     </ListItemAvatar>
-                  </IconButton>
+                  </Tooltip>
                   <ListItemText
                     primary={
                       account.isTherapist ?
@@ -149,5 +160,5 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 export default connect(mapStateToProps, {
-  getReservations, cancelReservation,
+  getReservations, cancelReservation, attendSession,
 })(Calendar);

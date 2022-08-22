@@ -1,6 +1,7 @@
 import * as actionTypes from '../actionTypes';
 import * as URLs from './urls';
 import { CALL_API } from '../middleware/api';
+import { getUserInfo } from './account';
 
 export const getReservations = (is_therapist) => ({
   [CALL_API]: {
@@ -29,6 +30,21 @@ export const cancelReservation = (id, is_therapist) => ({
     },
     fetchOptions: {
       method: 'DELETE',
+    },
+    afterSuccess: getUserInfo(),
+  },
+});
+
+export const attendSession = (id, is_therapist) => ({
+  [CALL_API]: {
+    types: [
+      actionTypes.ATTEND_SESSION_REQUEST,
+      actionTypes.ATTEND_SESSION_SUCCESS,
+      actionTypes.ATTEND_SESSION_FAILURE,
+    ],
+    url: `${(is_therapist ? URLs.THERAPIST_RESERVATIONS : URLs.CLIENT_RESERVATIONS)}${id}/attend/`,
+    fetchOptions: {
+      method: 'GET',
     },
   },
 });

@@ -9,9 +9,12 @@ class Client(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE,
                                 related_name='client',
                                 primary_key=True)
+    telegram_username = models.CharField(max_length=255, null=True, validators=[
+                                         RegexValidator(r'^([a-zA-Z0-9_]{5,})$', 'Telegram username must be alphanumeric and at least 5 characters long.')])
 
     def __str__(self):
         return str(self.user)
+
 
 class Therapist(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE,
@@ -25,7 +28,7 @@ class Therapist(models.Model):
     daily_start_time = models.TimeField(null=True)
     daily_end_time = models.TimeField(null=True)
     telegram_username = models.CharField(max_length=255, null=True, validators=[
-                                         RegexValidator(r'^([a-zA-Z0-9_]{5,})$', 'Telegram username must be alphanumeric.')])
+                                         RegexValidator(r'^([a-zA-Z0-9_]{5,})$', 'Telegram username must be alphanumeric and at least 5 characters long.')])
     is_approved = models.BooleanField(default=False)
 
     def __str__(self):
