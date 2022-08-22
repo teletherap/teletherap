@@ -115,6 +115,14 @@ class PrivateTherapistSerializer(serializers.ModelSerializer):
                   'is_approved', 'documents')
 
 
+class PrivateClientSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Client
+        fields = ('user', 'telegram_username')
+
+
 class PublicTherapistSerializer(serializers.ModelSerializer):
     upcoming_reservations = PublicReservationSerializer(many=True, read_only=True)
     first_name = serializers.SerializerMethodField()
