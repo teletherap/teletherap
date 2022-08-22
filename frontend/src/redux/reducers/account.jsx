@@ -27,6 +27,7 @@ const initState = {
     telegramUsername: '',
   },
   reservations: [],
+  reviews: {},
 };
 
 const account = (state = initState, action) => {
@@ -193,6 +194,22 @@ const account = (state = initState, action) => {
       return {
         ...state,
         reservations: action.response,
+      };
+
+    case actionTypes.GET_REVIEWS_SUCCESS:
+      return {
+        ...state,
+        reviews: Object.assign({}, ...action.response.map(review => ({[review.reservation]: review}))),
+      };
+
+    case actionTypes.CREATE_REVIEW_SUCCESS:
+    case actionTypes.UPDATE_REVIEW_SUCCESS:
+      return {
+        ...state,
+        reviews: {
+          ...state.reviews,
+          [action.response.reservation]: action.response,
+        },
       };
 
     case actionTypes.CANCEL_RESERVATION_SUCCESS:

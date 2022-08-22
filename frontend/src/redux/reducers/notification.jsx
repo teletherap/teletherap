@@ -59,6 +59,14 @@ const notification = (state = initState, action) => {
       toast.success('Withdrawal successful');
       return { ...state };
 
+    case actionTypes.CREATE_REVIEW_SUCCESS:
+      toast.success('Review created');
+      return { ...state };
+
+    case actionTypes.UPDATE_REVIEW_SUCCESS:
+      toast.success('Review updated');
+      return { ...state };
+
     case actionTypes.CANCEL_RESERVATION_SUCCESS:
       toast.success('Reservation cancelled');
       return { ...state };
@@ -83,6 +91,9 @@ const notification = (state = initState, action) => {
     case actionTypes.WITHDRAW_FAILURE:
     case actionTypes.GET_THERAPISTS_FAILURE:
     case actionTypes.GET_RESERVATIONS_FAILURE:
+    case actionTypes.GET_REVIEWS_FAILURE:
+    case actionTypes.CREATE_REVIEW_FAILURE:
+    case actionTypes.UPDATE_REVIEW_FAILURE:
     case actionTypes.ATTEND_SESSION_FAILURE:
       toast.error(action.error);
       return { ...state };
