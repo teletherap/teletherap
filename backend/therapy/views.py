@@ -98,3 +98,12 @@ class TherapistReservationAttend(BaseReservationAttend):
 
     def get_session_url(self, reservation: models.Reservation) -> str:
         return reservation.url_for_therapist
+
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    queryset = models.Review.objects.all()
+    serializer_class = serializers.ReviewSerializer
+    permission_classes = (permissions.IsAuthenticated, user_permissions.IsClient)
+
+    def get_queryset(self):
+        return super().get_queryset().filter(reservation__client=self.request.user.client)

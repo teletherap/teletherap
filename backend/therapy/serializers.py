@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from uuid import uuid4
 
 from django.db import transaction
 from django.utils import timezone
@@ -7,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
 
-from .models import Reservation
+from .models import Reservation, Review
 from user.models import Therapist, Client
 from finance.models import ReservationTransaction, Wallet
 
@@ -52,7 +51,7 @@ class ReservationSerializer(serializers.ModelSerializer):
 
         return super().validate(attrs)
 
-    def validate_datetime(self, value):
+    def validate_datetime(self, value: datetime):
         if value < timezone.now():
             raise serializers.ValidationError('Reservation date must be in the future.')
         return value
@@ -73,3 +72,25 @@ class ReservationSerializer(serializers.ModelSerializer):
 
         return reservation
 
+
+class ReviewSerializer(serializers.ModelSerializer):
+    created_at = serializers.DateTimeField(read_only=True)
+    client_name = serializers.SerializerMethodField(read_only=True)
+    therapist_name = serializers.SerializerMethodField(read_only=True)
+
+    def get_therapist_name(self, obj: Review):
+        return f'{obj.reservation.therapist.user.first_name} {obj.reservation.therapist.user.last_name}'
+
+    def get_client_name(self, obj: Review):
+        return f'{obj.reservation.client.user.first_name} {obj.reservation.client.user.last_name}'
+
+    class Meta:
+        model = Review
+        fields = ('reservation', 'rating', 'comment', 'created_at', 'client_name', 'therapist_name')
+
+    def validate_reservation(self, reservation: Reservation):
+        if reservation.current_state != Reservation.State.ATTENDED:
+            raise serializers.ValidationError('You can only review an attended reservation.')
+        if self.context['request'].user != reservation.client.user:
+            raise serializers.ValidationError('You can only review your own reservations.')
+        return reservation

@@ -7,7 +7,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import Client, Therapist, TherapistDocuments
 from .verification import Verifier
 from finance.models import Wallet
-from therapy.serializers import PublicReservationSerializer
+from therapy.serializers import PublicReservationSerializer, ReviewSerializer
 from therapy.models import Review, Reservation
 
 
@@ -129,6 +129,7 @@ class PublicTherapistSerializer(serializers.ModelSerializer):
     last_name = serializers.SerializerMethodField()
     average_rating = serializers.SerializerMethodField()
     attended_sessions_count = serializers.SerializerMethodField()
+    reviews = serializers.SerializerMethodField()
 
     def get_first_name(self, obj: Therapist):
         return obj.user.first_name
@@ -144,6 +145,9 @@ class PublicTherapistSerializer(serializers.ModelSerializer):
     def get_attended_sessions_count(self, obj: Therapist):
         return obj.reservations.filter(state=Reservation.State.ATTENDED).count()
 
+    def get_reviews(self, obj: Therapist):
+        return ReviewSerializer(Review.objects.filter(reservation__therapist=obj), many=True).data
+
     class Meta:
         model = Therapist
         fields = ('user', 'description',
@@ -155,4 +159,5 @@ class PublicTherapistSerializer(serializers.ModelSerializer):
                   'upcoming_reservations',
                   'first_name', 'last_name',
                   'average_rating',
-                  'attended_sessions_count')
+                  'attended_sessions_count',
+                  'reviews')
