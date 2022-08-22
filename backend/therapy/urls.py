@@ -31,4 +31,10 @@ urlpatterns = [
     re_path(r'^client/reservation/(?P<pk>\d+)/attend/$', views.ClientReservationAttend.as_view({
         'get': 'retrieve',
     }), name='client-reservation-attend'),
+    re_path(r'^review/$', views.ReviewViewSet.as_view({
+        'post': 'create',
+    }), name='review'),
+    re_path(r'^review/(?P<pk>\d+)/$', views.ReviewViewSet.as_view({
+        'patch': 'partial_update',
+    }), name='review-detail'),
 ]

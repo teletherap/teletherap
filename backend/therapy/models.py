@@ -55,7 +55,9 @@ class Reservation(models.Model):
 
 
 class Review(models.Model):
-    reservation = models.OneToOneField('therapy.Reservation', on_delete=models.CASCADE,
+    reservation = models.OneToOneField('therapy.Reservation',
+                                       primary_key=True,
+                                       on_delete=models.CASCADE,
                                        related_name='review')
     rating = models.IntegerField(null=True,
                                  validators=[
@@ -63,4 +65,3 @@ class Review(models.Model):
                                     MaxValueValidator(5)])
     comment = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    
