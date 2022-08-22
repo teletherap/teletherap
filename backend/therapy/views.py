@@ -1,6 +1,7 @@
+from abc import abstractmethod
 from django.db import transaction
 from django.http import HttpRequest
-from rest_framework import viewsets, permissions, exceptions
+from rest_framework import viewsets, permissions, exceptions, response
 
 from user import models as user_models, serializers as user_serializers, permissions as user_permissions
 from finance import models as finance_models
@@ -19,10 +20,10 @@ class BaseReservationViewSet(viewsets.ModelViewSet):
 
     @transaction.atomic
     def perform_destroy(self, reservation: models.Reservation):
-        if reservation.state == models.Reservation.State.ATTENDED:
-            raise exceptions.PermissionDenied('You cannot delete an attended reservation.')
+        if reservation.current_state in (models.Reservation.State.ATTENDED, models.Reservation.State.ONGOING):
+            raise exceptions.PermissionDenied('You cannot cancel an ongoing or attended reservation.')
 
-        if reservation.state == models.Reservation.State.CANCELLED:
+        if reservation.current_state == models.Reservation.State.CANCELLED:
             return
 
         reservation_transaction: finance_models.ReservationTransaction = \
@@ -60,3 +61,40 @@ class TherapistReservation(BaseReservationViewSet):
 
     def get_queryset(self):
         return super().get_queryset().filter(therapist=self.request.user.therapist)
+
+
+class BaseReservationAttend(viewsets.GenericViewSet):
+    queryset = models.Reservation.objects.all()
+
+    def retrieve(self, request: HttpRequest, *args, **kwargs):
+        reservation: models.Reservation = self.get_object()
+        if reservation.current_state != models.Reservation.State.ONGOING:
+            raise exceptions.PermissionDenied('You cannot attend a reservation that is not ongoing.')
+
+        return response.Response(dict(
+            session_url=self.get_session_url(reservation)
+        ))
+
+    @abstractmethod
+    def get_session_url(self, reservation: models.Reservation) -> str:
+        pass
+
+
+class ClientReservationAttend(BaseReservationAttend):
+    permission_classes = (permissions.IsAuthenticated, user_permissions.IsClient)
+
+    def get_queryset(self):
+        return super().get_queryset().filter(client=self.request.user.client)
+
+    def get_session_url(self, reservation: models.Reservation) -> str:
+        return reservation.url_for_client
+
+
+class TherapistReservationAttend(BaseReservationAttend):
+    permission_classes = (permissions.IsAuthenticated, user_permissions.IsTherapist)
+
+    def get_queryset(self):
+        return super().get_queryset().filter(therapist=self.request.user.therapist)
+
+    def get_session_url(self, reservation: models.Reservation) -> str:
+        return reservation.url_for_therapist

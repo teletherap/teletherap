@@ -66,6 +66,10 @@ const notification = (state = initState, action) => {
       toast.error('Error cancelling reservation');
       return { ...state };
 
+    case actionTypes.ATTEND_SESSION_SUCCESS:
+      toast.info('Opening the session');
+      return { ...state };
+
     case actionTypes.ACTIVATION_FAILURE:
     case actionTypes.GET_USER_INFO_FAILURE:
     case actionTypes.REGISTER_FAILURE:
@@ -76,6 +80,7 @@ const notification = (state = initState, action) => {
     case actionTypes.WITHDRAW_FAILURE:
     case actionTypes.GET_THERAPISTS_FAILURE:
     case actionTypes.GET_RESERVATIONS_FAILURE:
+    case actionTypes.ATTEND_SESSION_FAILURE:
       toast.error(action.error);
       return { ...state };
 

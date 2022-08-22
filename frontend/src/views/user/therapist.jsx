@@ -57,11 +57,11 @@ const UpdateTherapist = ({ getPersonalTherapistInfo, updatePersonalTherapistInfo
     setDailyEndTime(new Date(account.therapist.dailyEndTime));
     setTelegramUsername(account.therapist.telegramUsername);
     setDocuments(account.therapist.documents);
-  } , [account.therapist]);
+  }, [account.therapist]);
 
   useEffect(() => {
     setDocuments(account.therapist.documents);
-  } ,[account.therapist.documents]);
+  }, [account.therapist.documents]);
 
   const doUpdate = (e) => {
     e.preventDefault();
