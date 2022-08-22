@@ -59,16 +59,6 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
-        if validated_data['communication_type'] == Reservation.CommunicationType.VIDEO:
-            validated_data['url_for_client'] = \
-                validated_data['url_for_therapist'] = \
-                f'https://meet.jit.si/teletherap-{uuid4()}'
-        else:
-            therapist = get_object_or_404(Therapist, pk=validated_data['therapist'])
-            validated_data['url_for_client'] = f'https://t.me/{therapist.telegram_username}'
-            client = get_object_or_404(Client, pk=validated_data['client'])
-            validated_data['url_for_therapist'] = f'https://t.me/{client.telegram_username}'
-
         reservation: Reservation = super().create(validated_data)
         reservation_transaction = ReservationTransaction.objects.create(reservation=reservation,
                                                                         amount=reservation.therapist.price_per_session)

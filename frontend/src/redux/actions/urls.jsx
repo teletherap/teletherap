@@ -8,6 +8,7 @@ export const REGISTER = Config.ApiBaseUrl.concat('/user/register/');
 export const ACTIVATE = Config.ApiBaseUrl.concat(`/user/activate/`);
 export const PERSONAL_THERAPIST_INFO = Config.ApiBaseUrl.concat('/user/therapist/');
 export const THERAPIST_DOCUMENTS = Config.ApiBaseUrl.concat('/user/therapist/documents/');
+export const PERSONAL_CLIENT_INFO = Config.ApiBaseUrl.concat('/user/client/');
 export const DEPOSIT = Config.ApiBaseUrl.concat('/finance/deposit/request/');
 export const VERIFY_DEPOSIT = Config.ApiBaseUrl.concat('/finance/deposit/verify/');
 export const WITHDRAW = Config.ApiBaseUrl.concat('/finance/withdraw/');

@@ -1,4 +1,6 @@
 from datetime import timedelta
+from uuid import uuid4
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -11,8 +13,7 @@ class Reservation(models.Model):
     therapist = models.ForeignKey('user.Therapist', on_delete=models.CASCADE,
                                   related_name='reservations')
     datetime = models.DateTimeField()
-    url_for_client = models.URLField(null=True)
-    url_for_therapist = models.URLField(null=True)
+    uuid = models.UUIDField(default=uuid4, editable=False)
 
     class CommunicationType(models.TextChoices):
         TELEGRAM = 'tlgrm', _('Telegram')
@@ -39,6 +40,18 @@ class Reservation(models.Model):
                 self.state = self.State.ONGOING
                 self.save()
         return self.state
+
+    @property
+    def url_for_client(self) -> str:
+        return f'https://meet.jit.si/teletherap-{uuid4()}' \
+            if self.communication_type == self.CommunicationType.VIDEO else \
+            f'https://telegram.me/{self.therapist.telegram_username}'
+
+    @property
+    def url_for_therapist(self) -> str:
+        return f'https://meet.jit.si/teletherap-{uuid4()}' \
+            if self.communication_type == self.CommunicationType.VIDEO else \
+            f'https://telegram.me/{self.client.telegram_username}'
 
 
 class Review(models.Model):

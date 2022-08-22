@@ -23,6 +23,9 @@ const initState = {
     isApproved: false,
     documents: [],
   },
+  client: {
+    telegramUsername: '',
+  },
   reservations: [],
 };
 
@@ -75,6 +78,10 @@ const account = (state = initState, action) => {
       };
 
     case actionTypes.GET_USER_INFO_REQUEST:
+    case actionTypes.GET_PERSONAL_THERAPIST_INFO_REQUEST:
+    case actionTypes.UPDATE_PERSONAL_THERAPIST_INFO_REQUEST:
+    case actionTypes.GET_PERSONAL_CLIENT_INFO_REQUEST:
+    case actionTypes.UPDATE_PERSONAL_CLIENT_INFO_REQUEST:
       return {
         ...state,
         isFetching: true,
@@ -93,6 +100,8 @@ const account = (state = initState, action) => {
       };
 
     case actionTypes.GET_USER_INFO_FAILURE:
+    case actionTypes.UPDATE_PERSONAL_THERAPIST_INFO_FAILURE:
+    case actionTypes.UPDATE_PERSONAL_CLIENT_INFO_FAILURE:
       return {
         ...state,
         isFetching: false,
@@ -108,13 +117,6 @@ const account = (state = initState, action) => {
       return {
         ...state,
         walletBalance: state.walletBalance - action.payload.amount,
-      };
-
-    case actionTypes.GET_PERSONAL_THERAPIST_INFO_REQUEST:
-    case actionTypes.UPDATE_PERSONAL_THERAPIST_INFO_REQUEST:
-      return {
-        ...state,
-        isFetching: true,
       };
 
     case actionTypes.GET_PERSONAL_THERAPIST_INFO_SUCCESS:
@@ -150,12 +152,6 @@ const account = (state = initState, action) => {
         therapist: initState.therapist,
       };
 
-    case actionTypes.UPDATE_PERSONAL_THERAPIST_INFO_FAILURE:
-      return {
-        ...state,
-        isFetching: false,
-      };
-
     case actionTypes.REMOVE_THERAPIST_DOCUMENT_SUCCESS:
       return {
         ...state,
@@ -173,6 +169,24 @@ const account = (state = initState, action) => {
           ...state.therapist,
           documents: [...state.documents, action.response],
         },
+      };
+
+    case actionTypes.GET_PERSONAL_CLIENT_INFO_SUCCESS:
+    case actionTypes.UPDATE_PERSONAL_CLIENT_INFO_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        client: {
+          ...state.client,
+          telegramUsername: action.response.telegram_username,
+        },
+      };
+
+    case actionTypes.GET_PERSONAL_CLIENT_INFO_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        client: initState.client,
       };
 
     case actionTypes.GET_RESERVATIONS_SUCCESS:

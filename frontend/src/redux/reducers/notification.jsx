@@ -27,6 +27,7 @@ const notification = (state = initState, action) => {
       return { ...state };
     
     case actionTypes.UPDATE_PERSONAL_THERAPIST_INFO_SUCCESS:
+    case actionTypes.UPDATE_PERSONAL_CLIENT_INFO_SUCCESS:
       toast.success('Personal info updated');
       return { ...state };
 
@@ -75,6 +76,8 @@ const notification = (state = initState, action) => {
     case actionTypes.REGISTER_FAILURE:
     case actionTypes.GET_PERSONAL_THERAPIST_INFO_FAILURE:
     case actionTypes.UPDATE_PERSONAL_THERAPIST_INFO_FAILURE:
+    case actionTypes.GET_PERSONAL_CLIENT_INFO_FAILURE:
+    case actionTypes.UPDATE_PERSONAL_CLIENT_INFO_FAILURE:
     case actionTypes.DEPOSIT_FAILURE:
     case actionTypes.VERIFY_DEPOSIT_FAILURE:
     case actionTypes.WITHDRAW_FAILURE:
