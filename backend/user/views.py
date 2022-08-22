@@ -35,6 +35,17 @@ class PrivateTherapistRU(generics.RetrieveUpdateAPIView):
         return therapist
 
 
+class PrivateClientRU(generics.RetrieveUpdateAPIView):
+    queryset = models.Client
+    permission_classes = (permissions.IsAuthenticated, user_permissions.IsClient)
+    serializer_class = serializers.PrivateClientSerializer
+
+    def get_object(self):
+        client = self.request.user.client
+        self.check_object_permissions(self.request, client)
+        return client
+
+
 class UserInfoView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
