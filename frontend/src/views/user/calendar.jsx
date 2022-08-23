@@ -18,10 +18,10 @@ const Calendar = ({ getReservations, cancelReservation, attendSession, createRev
   const [toBeSentReviews, setToBeSentReviews] = useState(account.reviews);
 
   useEffect(() => {
-    setToBeSentReviews(Object.assign({}, ...account.reservations.map(reservation => ({[reservation.id]: {
+    setToBeSentReviews({...account.reservations.map(reservation => ({[reservation.id]: {
       rating: null,
       comment: '',
-    }}))));
+    }})), ...toBeSentReviews});
   }, [account.reservations]);
 
   useEffect(() => {
