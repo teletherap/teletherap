@@ -52,8 +52,13 @@ const Therapist = ({ getTherapist, reserve, therapist, account }) => {
     let startTime = new Date(dayStartTime);
     let endTime = new Date(new Date(startTime).setHours(startTime.getHours() + 1));
 
-
     while (endTime <= dayEndTime) {
+      if (startTime < new Date()) {
+        startTime = endTime;
+        endTime = new Date(new Date(startTime).setHours(startTime.getHours() + 1));
+        continue;
+      }
+
       let available = true;
       for (let i = 0; i < therapist.upcomingReservations.length; i++) {
         const reservation = therapist.upcomingReservations[i];
