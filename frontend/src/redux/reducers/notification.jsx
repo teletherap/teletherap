@@ -79,6 +79,10 @@ const notification = (state = initState, action) => {
       toast.info('Opening the session');
       return { ...state };
 
+    case actionTypes.RESERVE_SUCCESS:
+      toast.success('Reservation created');
+      return { ...state };
+
     case actionTypes.ACTIVATION_FAILURE:
     case actionTypes.GET_USER_INFO_FAILURE:
     case actionTypes.REGISTER_FAILURE:
@@ -90,11 +94,13 @@ const notification = (state = initState, action) => {
     case actionTypes.VERIFY_DEPOSIT_FAILURE:
     case actionTypes.WITHDRAW_FAILURE:
     case actionTypes.GET_THERAPISTS_FAILURE:
+    case actionTypes.GET_THERAPIST_FAILURE:
     case actionTypes.GET_RESERVATIONS_FAILURE:
     case actionTypes.GET_REVIEWS_FAILURE:
     case actionTypes.CREATE_REVIEW_FAILURE:
     case actionTypes.UPDATE_REVIEW_FAILURE:
     case actionTypes.ATTEND_SESSION_FAILURE:
+    case actionTypes.RESERVE_FAILURE:
       toast.error(action.error);
       return { ...state };
 
